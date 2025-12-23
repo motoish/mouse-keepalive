@@ -1,0 +1,71 @@
+name: 'Build Release Assets'
+description: 'Build cross-platform executables using PyInstaller'
+
+inputs:
+  version:
+    description: 'Version to build'
+    required: true
+  platform:
+    description: 'Platform (linux, darwin, win32)'
+    required: true
+  artifact-name:
+    description: 'Artifact name'
+    required: true
+
+outputs:
+  artifact-path:
+    description: 'Path to the built artifact'
+    value: ${{ steps.build.outputs.artifact-path }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install pyinstaller pyautogui
+
+    - name: Build executable
+      id: build
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        ARTIFACT_NAME="${{ inputs.artifact-name }}"
+        PLATFORM="${{ inputs.platform }}"
+        
+        if [ "$PLATFORM" == "win32" ]; then
+          pyinstaller --onefile ^
+            --name mouse-keepalive ^
+            --hidden-import pyautogui ^
+            --hidden-import pyscreeze ^
+            --console ^
+            mouse_keepalive/__main__.py
+          cd dist
+          powershell -Command \
+            "Compress-Archive -Path mouse-keepalive.exe -DestinationPath ${ARTIFACT_NAME}-v${VERSION}.zip -Force"
+          cd ..
+          echo "artifact-path=dist/${ARTIFACT_NAME}-v${VERSION}.zip" >> $GITHUB_OUTPUT
+        else
+          pyinstaller --onefile \
+            --name mouse-keepalive \
+            --hidden-import pyautogui \
+            --hidden-import pyscreeze \
+            --console \
+            mouse_keepalive/__main__.py
+          cd dist
+          if [ "$PLATFORM" == "darwin" ]; then
+            zip -r ${ARTIFACT_NAME}-v${VERSION}.zip mouse-keepalive
+            echo "artifact-path=dist/${ARTIFACT_NAME}-v${VERSION}.zip" >> $GITHUB_OUTPUT
+          else
+            tar czf ${ARTIFACT_NAME}-v${VERSION}.tar.gz mouse-keepalive
+            echo "artifact-path=dist/${ARTIFACT_NAME}-v${VERSION}.tar.gz" >> $GITHUB_OUTPUT
+          fi
+          cd ..
+        fi
+

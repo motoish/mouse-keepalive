@@ -53,3 +53,8 @@ node_modules/
 package-lock.json
 yarn.lock
 
+# Github Actions
+!.github/actions/build
+!.github/actions/lint
+!.github/actions/release
+!.github/actions/publish

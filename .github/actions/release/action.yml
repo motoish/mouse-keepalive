@@ -1,0 +1,47 @@
+name: 'Release Please'
+description: 'Run release-please to manage version and create release PR'
+
+inputs:
+  config-file:
+    description: 'Path to release-please config file'
+    required: false
+    default: 'release-please-config.json'
+  manifest-file:
+    description: 'Path to release-please manifest file'
+    required: false
+    default: 'release-please-config.json'
+
+outputs:
+  release-created:
+    description: 'Whether a release was created'
+    value: ${{ steps.release.outputs.release_created }}
+  tag-name:
+    description: 'Tag name if release was created'
+    value: ${{ steps.release.outputs.tag_name }}
+  version:
+    description: 'Version if release was created'
+    value: ${{ steps.release.outputs.version }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Run release-please
+      id: release
+      uses: googleapis/release-please-action@v4
+      with:
+        config-file: ${{ inputs.config-file }}
+        manifest-file: ${{ inputs.manifest-file }}
+
+    - name: Update Python package version files
+      if: steps.release.outputs.release_created == 'true'
+      shell: bash
+      run: |
+        VERSION="${{ steps.release.outputs.version }}"
+        # Update pyproject.toml
+        sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+        # Update __init__.py
+        sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" mouse_keepalive/__init__.py
+        echo "Updated Python package files to version $VERSION"
+        git add pyproject.toml mouse_keepalive/__init__.py
+        git commit -m "chore: update Python package version to $VERSION" || echo "No changes to commit"
+

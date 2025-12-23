@@ -1,0 +1,62 @@
+name: 'Publish Packages'
+description: 'Publish to npm and/or PyPI'
+
+inputs:
+  version:
+    description: 'Version to publish'
+    required: true
+  publish-npm:
+    description: 'Whether to publish to npm'
+    required: false
+    default: 'true'
+  publish-pypi:
+    description: 'Whether to publish to PyPI'
+    required: false
+    default: 'true'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js (for npm)
+      if: inputs.publish-npm == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Setup Python (for PyPI)
+      if: inputs.publish-pypi == 'true'
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Publish to npm
+      if: inputs.publish-npm == 'true'
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        npm version $VERSION --no-git-tag-version
+        npm ci
+        npm publish --access public
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Publish to PyPI
+      if: inputs.publish-pypi == 'true'
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        # Update versions
+        sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+        sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" mouse_keepalive/__init__.py
+        # Install build tools
+        python -m pip install --upgrade pip
+        pip install build twine
+        # Build and publish
+        python -m build
+        twine check dist/*
+        twine upload dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+
