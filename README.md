@@ -218,27 +218,33 @@ MIT License
 
 ### 本地运行 Linter
 
-如果你想在本地运行这些检查：
+使用 Makefile 简化命令：
 
 ```bash
-# Python linting
-pip install flake8 black pylint mypy
-flake8 auto_mouse_mover/
-black --check auto_mouse_mover/
-pylint auto_mouse_mover/
-mypy auto_mouse_mover/
+# 安装开发依赖（首次使用）
+make install-dev
 
-# Shell linting (需要安装 shellcheck)
-shellcheck move_mouse.sh
+# 运行所有 linter
+make lint
 
-# Markdown linting (需要安装 markdownlint-cli)
-npm install -g markdownlint-cli
-markdownlint "*.md"
+# 运行特定 linter
+make lint-python    # Python linters
+make lint-shell     # Shell linter
+make lint-markdown  # Markdown linter
+make lint-yaml      # YAML linter
 
-# YAML linting
-pip install yamllint
-yamllint .github/workflows/*.yml
+# 格式化代码
+make format         # 格式化所有代码
+make format-python  # 仅格式化 Python 代码
+
+# 查看所有可用命令
+make help
 ```
+
+**注意**: `shellcheck` 需要单独安装：
+- macOS: `brew install shellcheck`
+- Ubuntu/Debian: `sudo apt-get install shellcheck`
+- Fedora: `sudo dnf install ShellCheck`
 
 ## 依赖管理
 
@@ -323,4 +329,3 @@ npm publish
 欢迎提交 Issue 和 Pull Request！
 
 在提交代码前，请确保所有 linter 检查通过。
-

@@ -218,27 +218,33 @@ GitHub Actions automatically runs these checks on every push or Pull Request.
 
 ### Running Linters Locally
 
-If you want to run these checks locally:
+Use Makefile to simplify commands:
 
 ```bash
-# Python linting
-pip install flake8 black pylint mypy
-flake8 auto_mouse_mover/
-black --check auto_mouse_mover/
-pylint auto_mouse_mover/
-mypy auto_mouse_mover/
+# Install development dependencies (first time)
+make install-dev
 
-# Shell linting (requires shellcheck)
-shellcheck move_mouse.sh
+# Run all linters
+make lint
 
-# Markdown linting (requires markdownlint-cli)
-npm install -g markdownlint-cli
-markdownlint "*.md"
+# Run specific linter
+make lint-python    # Python linters
+make lint-shell     # Shell linter
+make lint-markdown  # Markdown linter
+make lint-yaml      # YAML linter
 
-# YAML linting
-pip install yamllint
-yamllint .github/workflows/*.yml
+# Format code
+make format         # Format all code
+make format-python  # Format Python code only
+
+# View all available commands
+make help
 ```
+
+**Note**: `shellcheck` needs to be installed separately:
+- macOS: `brew install shellcheck`
+- Ubuntu/Debian: `sudo apt-get install shellcheck`
+- Fedora: `sudo dnf install ShellCheck`
 
 ## Dependency Management
 
@@ -323,4 +329,3 @@ npm publish
 Issues and Pull Requests are welcome!
 
 Before submitting code, please ensure all linter checks pass.
-
