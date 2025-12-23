@@ -40,11 +40,11 @@ runs:
         PLATFORM="${{ inputs.platform }}"
         
         if [ "$PLATFORM" == "win32" ]; then
-          pyinstaller --onefile ^
-            --name mouse-keepalive ^
-            --hidden-import pyautogui ^
-            --hidden-import pyscreeze ^
-            --console ^
+          pyinstaller --onefile \
+            --name mouse-keepalive \
+            --hidden-import pyautogui \
+            --hidden-import pyscreeze \
+            --console \
             mouse_keepalive/__main__.py
           cd dist
           powershell -Command \
