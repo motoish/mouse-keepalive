@@ -263,7 +263,29 @@ yamllint .github/workflows/*.yml
 
 ## 发布到 PyPI 和 npm
 
-本项目同时支持发布到 PyPI 和 npm。详细发布指南请查看 [PUBLISH.md](PUBLISH.md)。
+本项目同时支持发布到 PyPI 和 npm。
+
+### 快速发布
+
+**最简单的方式**：创建并推送版本标签
+
+```bash
+# 1. 更新版本号（编辑 package.json, pyproject.toml, auto_mouse_mover/__init__.py）
+# 2. 提交更改
+git add package.json pyproject.toml auto_mouse_mover/__init__.py
+git commit -m "chore: bump version to 1.0.1"
+git push origin main
+
+# 3. 创建并推送标签
+git tag v1.0.1
+git push origin v1.0.1
+
+# 4. GitHub Actions 会自动发布到 npm 和 PyPI！
+```
+
+详细发布指南请查看：
+- [RELEASE.md](RELEASE.md) - 快速发布指南
+- [PUBLISH.md](PUBLISH.md) - 详细发布文档
 
 ### 快速发布
 
