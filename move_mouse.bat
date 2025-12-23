@@ -44,7 +44,7 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM 运行 Python 模块并传递所有参数 / Run Python module and pass all arguments
-%PYTHON_CMD% -m auto_mouse_mover %*
+%PYTHON_CMD% -m mouse_keepalive %*
 
 endlocal
 

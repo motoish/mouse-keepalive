@@ -19,40 +19,40 @@
 
 ```bash
 # 使用 pip 安装
-pip install auto-mouse-mover
+pip install mouse-keepalive
 
 # 或使用 pipx（推荐，隔离环境）
-pipx install auto-mouse-mover
+pipx install mouse-keepalive
 ```
 
 安装后可以使用以下命令：
 
 ```bash
 # 使用完整命令名
-auto-mouse-mover
+mouse-keepalive
 
 # 或使用简短别名
-amm
+mka
 
 # 或使用模块方式
-python -m auto_mouse_mover
+python -m mouse_keepalive
 ```
 
 ### 方式二：npm 安装（Node.js 用户推荐）
 
 ```bash
 # 全局安装
-npm install -g auto-mouse-mover
+npm install -g mouse-keepalive
 ```
 
 安装后可以使用以下命令：
 
 ```bash
 # 使用完整命令名
-auto-mouse-mover
+mouse-keepalive
 
 # 或使用简短别名
-amm
+mka
 ```
 
 ### 方式三：Python 脚本（开发/传统方式）
@@ -88,25 +88,25 @@ chmod +x move_mouse.sh
 
 ```bash
 # 默认：每60秒移动一次，无限运行
-auto-mouse-mover
+mouse-keepalive
 # 或
 amm
 
 # 指定移动间隔为30秒
-auto-mouse-mover -i 30
+mouse-keepalive -i 30
 # 或
 amm -i 30
 
 # 指定移动间隔和运行时长（1小时 = 3600秒）
-auto-mouse-mover -i 120 -d 3600
+mouse-keepalive -i 120 -d 3600
 # 或
 amm -i 120 -d 3600
 
 # 查看帮助
-auto-mouse-mover --help
+mouse-keepalive --help
 
 # Python 模块方式运行
-python -m auto_mouse_mover -i 30
+python -m mouse_keepalive -i 30
 ```
 
 ### 本地 Python 脚本方式
@@ -129,9 +129,9 @@ python -m auto_mouse_mover -i 30
 或直接使用 Python 模块：
 
 ```bash
-python3 -m auto_mouse_mover
-python3 -m auto_mouse_mover -i 30
-python3 -m auto_mouse_mover -i 120 -d 3600
+python3 -m mouse_keepalive
+python3 -m mouse_keepalive -i 30
+python3 -m mouse_keepalive -i 120 -d 3600
 ```
 
 #### Windows
@@ -152,9 +152,9 @@ move_mouse.bat -i 120 -d 3600
 或直接使用 Python 模块：
 
 ```cmd
-python -m auto_mouse_mover
-python -m auto_mouse_mover -i 30
-python -m auto_mouse_mover -i 120 -d 3600
+python -m mouse_keepalive
+python -m mouse_keepalive -i 30
+python -m mouse_keepalive -i 120 -d 3600
 ```
 
 ## 参数说明

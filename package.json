@@ -1,11 +1,11 @@
 {
-  "name": "auto-mouse-mover",
+  "name": "mouse-keepalive",
   "version": "1.0.0",
   "description": "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock",
   "main": "index.js",
   "bin": {
-    "auto-mouse-mover": "./bin/auto-mouse-mover.js",
-    "amm": "./bin/auto-mouse-mover.js"
+    "mouse-keepalive": "./bin/mouse-keepalive.js",
+    "mka": "./bin/mouse-keepalive.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,12 +29,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/motoish/auto-mouse-mover.git"
+    "url": "git+https://github.com/motoish/mouse-keepalive.git"
   },
   "bugs": {
-    "url": "https://github.com/motoish/auto-mouse-mover/issues"
+    "url": "https://github.com/motoish/mouse-keepalive/issues"
   },
-  "homepage": "https://github.com/motoish/auto-mouse-mover#readme",
+    "homepage": "https://github.com/motoish/mouse-keepalive#readme",
   "engines": {
     "node": ">=14.0.0"
   },

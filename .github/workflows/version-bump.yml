@@ -98,7 +98,7 @@ jobs:
       - name: Update __init__.py
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
-          sed -i "s/^__version__ = \".*\"/__version__ = \"$NEW_VERSION\"/" auto_mouse_mover/__init__.py
+          sed -i "s/^__version__ = \".*\"/__version__ = \"$NEW_VERSION\"/" mouse_keepalive/__init__.py
           echo "Updated __init__.py to $NEW_VERSION"
 
       - name: Create branch
@@ -114,7 +114,7 @@ jobs:
       - name: Commit changes
         run: |
           NEW_VERSION="${{ steps.new_version.outputs.new_version }}"
-          git add package.json pyproject.toml auto_mouse_mover/__init__.py
+          git add package.json pyproject.toml mouse_keepalive/__init__.py
           git commit -m "chore: bump version to $NEW_VERSION"
           echo "Committed version bump to $NEW_VERSION"
 
@@ -136,7 +136,7 @@ jobs:
           ### Changes
           - Updated \`package.json\`
           - Updated \`pyproject.toml\`
-          - Updated \`auto_mouse_mover/__init__.py\`
+          - Updated \`mouse_keepalive/__init__.py\`
 
           ### Next Steps
           After merging this PR, create a tag to trigger the publish workflow:

@@ -1,5 +1,5 @@
 """
-Tests for auto_mouse_mover.move_mouse module
+Tests for mouse_keepalive.move_mouse module
 """
 
 import sys
@@ -9,13 +9,13 @@ import pytest
 # Add parent directory to path to import the module
 sys.path.insert(0, '..')
 
-from auto_mouse_mover.move_mouse import move_mouse, main
+from mouse_keepalive.move_mouse import move_mouse, main
 
 
 class TestMoveMouse:
     """Test cases for move_mouse function"""
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     @patch('builtins.print')
@@ -36,7 +36,7 @@ class TestMoveMouse:
         assert mock_pyautogui.moveTo.called
         assert mock_pyautogui.size.called
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     @patch('builtins.print')
@@ -53,7 +53,7 @@ class TestMoveMouse:
         # Verify moveTo was called multiple times (move + move back)
         assert mock_pyautogui.moveTo.call_count >= 2
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     @patch('builtins.print')
@@ -73,7 +73,7 @@ class TestMoveMouse:
             assert 1 <= x < 1920
             assert 1 <= y < 1080
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     @patch('builtins.print')
@@ -96,21 +96,21 @@ class TestMoveMouse:
 class TestMain:
     """Test cases for main function"""
 
-    @patch('auto_mouse_mover.move_mouse.move_mouse')
+    @patch('mouse_keepalive.move_mouse.move_mouse')
     @patch('sys.argv', ['auto-mouse-mover', '-i', '30'])
     def test_main_with_interval(self, mock_move_mouse):
         """Test main function with interval argument"""
         main()
         mock_move_mouse.assert_called_once_with(interval=30, duration=None)
 
-    @patch('auto_mouse_mover.move_mouse.move_mouse')
+    @patch('mouse_keepalive.move_mouse.move_mouse')
     @patch('sys.argv', ['auto-mouse-mover', '-i', '60', '-d', '3600'])
     def test_main_with_interval_and_duration(self, mock_move_mouse):
         """Test main function with both interval and duration"""
         main()
         mock_move_mouse.assert_called_once_with(interval=60, duration=3600)
 
-    @patch('auto_mouse_mover.move_mouse.move_mouse')
+    @patch('mouse_keepalive.move_mouse.move_mouse')
     @patch('sys.argv', ['auto-mouse-mover'])
     def test_main_default_values(self, mock_move_mouse):
         """Test main function with default values"""
@@ -153,7 +153,7 @@ class TestMain:
 class TestIntegration:
     """Integration tests"""
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     @patch('builtins.print')
@@ -175,7 +175,7 @@ class TestIntegration:
         # Should have moved at least once
         assert mock_pyautogui.moveTo.call_count >= 2  # move + move back
 
-    @patch('auto_mouse_mover.move_mouse.pyautogui')
+    @patch('mouse_keepalive.move_mouse.pyautogui')
     @patch('time.time')
     @patch('time.sleep')
     def test_move_count_tracking(self, mock_sleep, mock_time, mock_pyautogui):

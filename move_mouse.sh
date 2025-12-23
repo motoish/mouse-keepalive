@@ -71,7 +71,7 @@ main() {
     check_pyautogui
 
     # 解析参数并传递给 Python 模块 / Parse arguments and pass to Python module
-    $PYTHON_CMD -m auto_mouse_mover "$@"
+    $PYTHON_CMD -m mouse_keepalive "$@"
 }
 
 # 运行主函数 / Run main function

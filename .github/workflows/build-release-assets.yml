@@ -27,13 +27,13 @@ jobs:
         include:
           - os: ubuntu-latest
             platform: linux
-            artifact_name: auto-mouse-mover-linux-x86_64
+            artifact_name: mouse-keepalive-linux-x86_64
           - os: macos-latest
             platform: darwin
-            artifact_name: auto-mouse-mover-macos-x86_64
+            artifact_name: mouse-keepalive-macos-x86_64
           - os: windows-latest
             platform: win32
-            artifact_name: auto-mouse-mover-windows-x86_64
+            artifact_name: mouse-keepalive-windows-x86_64
 
     steps:
       - name: Checkout code
@@ -70,27 +70,27 @@ jobs:
 
           if [ "${{ matrix.platform }}" == "win32" ]; then
             pyinstaller --onefile ^
-              --name auto-mouse-mover ^
+              --name mouse-keepalive ^
               --hidden-import pyautogui ^
               --hidden-import pyscreeze ^
               --console ^
-              auto_mouse_mover/__main__.py
+              mouse_keepalive/__main__.py
             cd dist
             powershell -Command \
-              "Compress-Archive -Path auto-mouse-mover.exe -DestinationPath ${ARTIFACT_NAME}-v${VERSION}.zip -Force"
+              "Compress-Archive -Path mouse-keepalive.exe -DestinationPath ${ARTIFACT_NAME}-v${VERSION}.zip -Force"
             cd ..
           else
             pyinstaller --onefile \
-              --name auto-mouse-mover \
+              --name mouse-keepalive \
               --hidden-import pyautogui \
               --hidden-import pyscreeze \
               --console \
-              auto_mouse_mover/__main__.py
+              mouse_keepalive/__main__.py
             cd dist
             if [ "${{ matrix.platform }}" == "darwin" ]; then
-              zip -r ${ARTIFACT_NAME}-v${VERSION}.zip auto-mouse-mover
+              zip -r ${ARTIFACT_NAME}-v${VERSION}.zip mouse-keepalive
             else
-              tar czf ${ARTIFACT_NAME}-v${VERSION}.tar.gz auto-mouse-mover
+              tar czf ${ARTIFACT_NAME}-v${VERSION}.tar.gz mouse-keepalive
             fi
             cd ..
           fi

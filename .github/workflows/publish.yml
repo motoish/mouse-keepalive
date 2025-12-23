@@ -69,7 +69,7 @@ jobs:
       - name: Verify publication
         run: |
           sleep 10  # 等待 npm 索引更新
-          npm view auto-mouse-mover version || echo "Package may not be indexed yet"
+          npm view mouse-keepalive version || echo "Package may not be indexed yet"
 
   publish-pypi:
     name: Publish to PyPI
@@ -106,7 +106,7 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
-          sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" auto_mouse_mover/__init__.py
+          sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" mouse_keepalive/__init__.py
           echo "Updated pyproject.toml and __init__.py to version $VERSION"
           cat pyproject.toml | grep "^version"
 
@@ -143,7 +143,7 @@ jobs:
       - name: Verify publication
         run: |
           sleep 10  # 等待 PyPI 索引更新
-          pip index versions auto-mouse-mover || echo "Package may not be indexed yet"
+          pip index versions mouse-keepalive || echo "Package may not be indexed yet"
 
   create-release:
     name: Create GitHub Release
@@ -180,28 +180,28 @@ jobs:
 
             ### 📦 Published Packages
 
-            - **npm**: `npm install -g auto-mouse-mover@${{ steps.version.outputs.version }}`
-            - **PyPI**: `pip install auto-mouse-mover==${{ steps.version.outputs.version }}`
+            - **npm**: `npm install -g mouse-keepalive@${{ steps.version.outputs.version }}`
+            - **PyPI**: `pip install mouse-keepalive==${{ steps.version.outputs.version }}`
 
             ### 🚀 Installation
 
             **npm:**
             ```bash
-            npm install -g auto-mouse-mover
+            npm install -g mouse-keepalive
             ```
 
             **PyPI:**
             ```bash
-            pip install auto-mouse-mover
+            pip install mouse-keepalive
             ```
 
             ### 💻 Standalone Executables
 
             Pre-built executables for Windows, macOS, and Linux are available in the Assets section below.
 
-            - **Windows**: `auto-mouse-mover-windows-x86_64-v${{ steps.version.outputs.version }}.zip`
-            - **macOS**: `auto-mouse-mover-macos-x86_64-v${{ steps.version.outputs.version }}.zip`
-            - **Linux**: `auto-mouse-mover-linux-x86_64-v${{ steps.version.outputs.version }}.tar.gz`
+            - **Windows**: `mouse-keepalive-windows-x86_64-v${{ steps.version.outputs.version }}.zip`
+            - **macOS**: `mouse-keepalive-macos-x86_64-v${{ steps.version.outputs.version }}.zip`
+            - **Linux**: `mouse-keepalive-linux-x86_64-v${{ steps.version.outputs.version }}.tar.gz`
 
             ### 📝 Changes
 

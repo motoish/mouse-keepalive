@@ -34,13 +34,13 @@ lint: lint-python lint-shell lint-markdown lint-yaml
 lint-python:
 	@echo "Running Python linters..."
 	@echo "  - flake8..."
-	flake8 auto_mouse_mover/ || true
+	flake8 mouse_keepalive/ || true
 	@echo "  - black (check)..."
-	black --check auto_mouse_mover/ || true
+	black --check mouse_keepalive/ || true
 	@echo "  - pylint..."
-	pylint auto_mouse_mover/ || true
+	pylint mouse_keepalive/ || true
 	@echo "  - mypy..."
-	mypy auto_mouse_mover/ || true
+	mypy mouse_keepalive/ || true
 
 # Shell linting
 lint-shell:
@@ -75,7 +75,7 @@ format: format-python
 # Format Python code
 format-python:
 	@echo "Formatting Python code with black..."
-	black auto_mouse_mover/
+	black mouse_keepalive/
 
 # Run tests
 test:
@@ -85,7 +85,7 @@ test:
 # Run tests with coverage
 test-cov:
 	@echo "Running tests with coverage..."
-	pytest tests/ -v --cov=auto_mouse_mover --cov-report=term-missing --cov-report=html
+	pytest tests/ -v --cov=mouse_keepalive --cov-report=term-missing --cov-report=html
 
 # Clean build artifacts
 clean:

@@ -53,17 +53,17 @@ dev = [
 ]
 
 [project.scripts]
-auto-mouse-mover = "auto_mouse_mover:main"
-amm = "auto_mouse_mover:main"
+mouse-keepalive = "mouse_keepalive:main"
+mka = "mouse_keepalive:main"
 
 [project.urls]
-Homepage = "https://github.com/motoish/auto-mouse-mover"
-Documentation = "https://github.com/motoish/auto-mouse-mover#readme"
-Repository = "https://github.com/motoish/auto-mouse-mover"
-Issues = "https://github.com/motoish/auto-mouse-mover/issues"
+Homepage = "https://github.com/motoish/mouse-keepalive"
+Documentation = "https://github.com/motoish/mouse-keepalive#readme"
+Repository = "https://github.com/motoish/mouse-keepalive"
+Issues = "https://github.com/motoish/mouse-keepalive/issues"
 
 [tool.setuptools]
-packages = ["auto_mouse_mover"]
+packages = ["mouse_keepalive"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.txt"]

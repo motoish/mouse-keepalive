@@ -2,16 +2,16 @@
   "packages": {
     ".": {
       "release-type": "node",
-      "package-name": "auto-mouse-mover",
+      "package-name": "mouse-keepalive",
       "version-file": "package.json",
       "changelog-path": "CHANGELOG.md",
       "extra-files": [
         "pyproject.toml",
-        "auto_mouse_mover/__init__.py"
+        "mouse_keepalive/__init__.py"
       ],
       "extra-files-regex": [
         "^pyproject\\.toml$",
-        "^auto_mouse_mover/__init__\\.py$"
+        "^mouse_keepalive/__init__\\.py$"
       ]
     }
   },

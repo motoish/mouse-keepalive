@@ -50,7 +50,7 @@ git push origin v1.0.1
 - 自动升级版本号（patch/minor/major）
 - 更新 `package.json`
 - 更新 `pyproject.toml`
-- 更新 `auto_mouse_mover/__init__.py`
+- 更新 `mouse_keepalive/__init__.py`
 - 可选创建 Pull Request
 
 **使用步骤**：
@@ -116,7 +116,7 @@ git push origin v1.0.1
 
 3. **验证包名可用性（可选）**
    ```bash
-   npm view auto-mouse-mover
+   npm view mouse-keepalive
    ```
    - 如果返回 404，说明包名可用
    - 如果包名已被占用，需要修改 `package.json` 中的 `name` 字段
@@ -130,22 +130,22 @@ git push origin v1.0.1
 2. **创建 API Token**
    - 访问 https://pypi.org/manage/account/token/
    - 点击 "Add API token" 按钮
-   - 输入 token 名称（如：`github-actions-auto-mouse-mover`）
+   - 输入 token 名称（如：`github-actions-mouse-keepalive`）
    - 选择作用域：
      - **"Entire account"** - 可以发布所有项目（推荐用于个人项目）
-     - **"Project: auto-mouse-mover"** - 只能发布特定项目（更安全，需要先注册包名）
+     - **"Project: mouse-keepalive"** - 只能发布特定项目（更安全，需要先注册包名）
    - 点击 "Add token"
    - **⚠️ 重要：立即复制 token**（只显示一次！格式类似：`pypi-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx`）
 
 3. **验证包名可用性（可选）**
-   - 访问 https://pypi.org/project/auto-mouse-mover/
+   - 访问 https://pypi.org/project/mouse-keepalive/
    - 如果显示 404，说明包名可用
    - 如果包名已被占用，需要修改 `pyproject.toml` 中的 `name` 字段
 
 ### 步骤 3: 在 GitHub 中配置 Secrets
 
 1. **打开仓库设置**
-   - 访问你的 GitHub 仓库：`https://github.com/YOUR_USERNAME/auto-mouse-mover`
+   - 访问你的 GitHub 仓库：`https://github.com/YOUR_USERNAME/mouse-keepalive`
    - 点击顶部菜单的 **"Settings"**（设置）
 
 2. **进入 Secrets 配置**
@@ -187,10 +187,10 @@ git push origin v1.0.1
 
 **Q: npm token 需要什么权限？**
 - Automation token 默认有发布权限，无需额外配置
-- 确保你的 npm 账户有权限发布到 `auto-mouse-mover` 包名
+- 确保你的 npm 账户有权限发布到 `mouse-keepalive` 包名
 
 **Q: PyPI token 需要什么权限？**
-- 选择 "Entire account" 或 "Project: auto-mouse-mover" 都可以
+- 选择 "Entire account" 或 "Project: mouse-keepalive" 都可以
 - 如果选择项目级别，需要先注册包名（首次发布时会自动注册）
 
 **Q: 如何验证 token 是否有效？**

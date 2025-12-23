@@ -27,19 +27,19 @@ jobs:
 
       - name: Run flake8
         run: |
-          flake8 auto_mouse_mover/ --max-line-length=120 --extend-ignore=E203,W503
+          flake8 mouse_keepalive/ --max-line-length=120 --extend-ignore=E203,W503
 
       - name: Run black (check)
         run: |
-          black --check --line-length=120 auto_mouse_mover/
+          black --check --line-length=120 mouse_keepalive/
 
       - name: Run pylint
         run: |
-          pylint auto_mouse_mover/ --max-line-length=120 --disable=C0111 || true
+          pylint mouse_keepalive/ --max-line-length=120 --disable=C0111 || true
 
       - name: Run mypy (type checking)
         run: |
-          mypy auto_mouse_mover/ --ignore-missing-imports || true
+          mypy mouse_keepalive/ --ignore-missing-imports || true
 
   shell-lint:
     name: Shell Script Linting

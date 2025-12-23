@@ -28,14 +28,14 @@ jobs:
 
       - name: Run Python linting
         run: |
-          flake8 auto_mouse_mover/ --max-line-length=120 --extend-ignore=E203,W503 || true
-          black --check --line-length=120 auto_mouse_mover/ || true
-          pylint auto_mouse_mover/ --max-line-length=120 --disable=C0111 || true
-          mypy auto_mouse_mover/ --ignore-missing-imports || true
+          flake8 mouse_keepalive/ --max-line-length=120 --extend-ignore=E203,W503 || true
+          black --check --line-length=120 mouse_keepalive/ || true
+          pylint mouse_keepalive/ --max-line-length=120 --disable=C0111 || true
+          mypy mouse_keepalive/ --ignore-missing-imports || true
 
       - name: Test Python package syntax
         run: |
-          python -m py_compile auto_mouse_mover/*.py
+          python -m py_compile mouse_keepalive/*.py
 
   approve:
     name: Auto-Approve PR

@@ -19,37 +19,37 @@ A cross-platform tool to automatically move the mouse at specified intervals to 
 
 ```bash
 # Install using pip
-pip install auto-mouse-mover
+pip install mouse-keepalive
 
 # Or use pipx (recommended, isolated environment)
-pipx install auto-mouse-mover
+pipx install mouse-keepalive
 ```
 
 After installation, you can use the following commands:
 
 ```bash
 # Use full command name
-auto-mouse-mover
+mouse-keepalive
 
 # Or use short alias
-amm
+mka
 
 # Or use module method
-python -m auto_mouse_mover
+python -m mouse_keepalive
 ```
 
 ### Method 2: npm Installation (Recommended for Node.js Users)
 
 ```bash
 # Global installation
-npm install -g auto-mouse-mover
+npm install -g mouse-keepalive
 ```
 
 After installation, you can use the following commands:
 
 ```bash
 # Use full command name
-auto-mouse-mover
+mouse-keepalive
 
 # Or use short alias
 amm
@@ -88,25 +88,25 @@ chmod +x move_mouse.sh
 
 ```bash
 # Default: move every 60 seconds, run indefinitely
-auto-mouse-mover
+mouse-keepalive
 # or
 amm
 
 # Specify movement interval as 30 seconds
-auto-mouse-mover -i 30
+mouse-keepalive -i 30
 # or
 amm -i 30
 
 # Specify movement interval and runtime duration (1 hour = 3600 seconds)
-auto-mouse-mover -i 120 -d 3600
+mouse-keepalive -i 120 -d 3600
 # or
 amm -i 120 -d 3600
 
 # View help
-auto-mouse-mover --help
+mouse-keepalive --help
 
 # Run as Python module
-python -m auto_mouse_mover -i 30
+python -m mouse_keepalive -i 30
 ```
 
 ### Local Python Script Method
@@ -152,9 +152,9 @@ move_mouse.bat -i 120 -d 3600
 Or use Python module directly:
 
 ```cmd
-python -m auto_mouse_mover
-python -m auto_mouse_mover -i 30
-python -m auto_mouse_mover -i 120 -d 3600
+python -m mouse_keepalive
+python -m mouse_keepalive -i 30
+python -m mouse_keepalive -i 120 -d 3600
 ```
 
 ## Parameters

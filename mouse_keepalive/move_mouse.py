@@ -101,7 +101,7 @@ def main():
   auto-mouse-mover                    # 每60秒移动一次，无限运行 / Move every 60s, infinite
   auto-mouse-mover -i 30              # 每30秒移动一次 / Move every 30s
   auto-mouse-mover -i 120 -d 3600     # 每120秒移动一次，运行1小时 / Move every 120s, run for 1 hour
-  python -m auto_mouse_mover         # 使用模块方式运行 / Run as module
+  python -m mouse_keepalive         # 使用模块方式运行 / Run as module
         """,
     )
 
