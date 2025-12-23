@@ -41,7 +41,8 @@ runs:
       shell: bash
       run: |
         VERSION="${{ inputs.version }}"
-        npm version $VERSION --no-git-tag-version
+        # Update package.json version directly (more reliable than npm version)
+        sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
         npm ci
         npm publish --access public
       env:
