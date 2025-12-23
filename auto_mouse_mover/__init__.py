@@ -9,4 +9,3 @@ __author__ = "motoish"
 from .move_mouse import move_mouse
 
 __all__ = ["move_mouse"]
-

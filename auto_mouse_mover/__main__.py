@@ -7,4 +7,3 @@ from .move_mouse import main
 
 if __name__ == "__main__":
     main()
-
