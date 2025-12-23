@@ -1,4 +1,4 @@
-.PHONY: help lint lint-python lint-shell lint-markdown lint-yaml format format-python install-dev clean
+.PHONY: help lint lint-python lint-shell lint-markdown lint-yaml format format-python install-dev test test-cov clean
 
 # Default target
 help:
@@ -11,12 +11,14 @@ help:
 	@echo "  make lint-yaml      - Run YAML linter (yamllint)"
 	@echo "  make format         - Format code (black)"
 	@echo "  make format-python  - Format Python code (black)"
+	@echo "  make test           - Run tests"
+	@echo "  make test-cov       - Run tests with coverage"
 	@echo "  make clean          - Clean build artifacts"
 
 # Install development dependencies
 install-dev:
 	@echo "Installing Python development dependencies..."
-	pip install flake8 black pylint mypy yamllint
+	pip install flake8 black pylint mypy yamllint pytest pytest-cov
 	@echo "Installing Node.js development dependencies..."
 	npm install -g markdownlint-cli
 	@echo "Note: shellcheck needs to be installed separately:"
@@ -73,6 +75,16 @@ format: format-python
 format-python:
 	@echo "Formatting Python code with black..."
 	black auto_mouse_mover/
+
+# Run tests
+test:
+	@echo "Running tests..."
+	pytest tests/ -v
+
+# Run tests with coverage
+test-cov:
+	@echo "Running tests with coverage..."
+	pytest tests/ -v --cov=auto_mouse_mover --cov-report=term-missing --cov-report=html
 
 # Clean build artifacts
 clean:
