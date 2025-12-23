@@ -1,23 +1,48 @@
 # 自动移动鼠标工具
 
-一个跨平台的自动移动鼠标工具，可以防止系统进入休眠或锁定状态。支持 macOS 和 Windows 系统。
+一个跨平台的自动移动鼠标工具，可以防止系统进入休眠或锁定状态。支持 macOS、Windows 和 Linux 系统。
 
 ## 功能特点
 
-- ✅ 跨平台支持（macOS 和 Windows）
+- ✅ 跨平台支持（macOS、Windows 和 Linux）
 - ✅ 可自定义移动间隔时间
 - ✅ 可设置运行时长
 - ✅ 鼠标移动几乎无感知（移动后立即返回原位置）
 - ✅ 实时显示运行状态
+- ✅ 支持 npm 安装，使用简单
 
-## 系统要求
+## 安装方式
 
-- Python 3.6 或更高版本
+### 方式一：npm 安装（推荐）
+
+```bash
+# 全局安装
+npm install -g auto-mouse-mover
+
+# 或使用简短别名
+npm install -g auto-mouse-mover
+```
+
+安装后可以使用以下命令：
+
+```bash
+# 使用完整命令名
+auto-mouse-mover
+
+# 或使用简短别名
+amm
+```
+
+### 方式二：Python 脚本（传统方式）
+
+#### 系统要求
+
+- Python 3.11 或更高版本
 - pyautogui 库
 
-## 安装
+#### 安装步骤
 
-### 1. 安装 Python 依赖
+1. 安装 Python 依赖：
 
 ```bash
 pip install -r requirements.txt
@@ -29,7 +54,7 @@ pip install -r requirements.txt
 pip install pyautogui
 ```
 
-### 2. 给脚本添加执行权限（macOS/Linux）
+2. 给脚本添加执行权限（macOS/Linux）：
 
 ```bash
 chmod +x move_mouse.sh
@@ -38,7 +63,31 @@ chmod +x move_mouse.py
 
 ## 使用方法
 
-### macOS / Linux
+### npm 安装方式（推荐）
+
+```bash
+# 默认：每60秒移动一次，无限运行
+auto-mouse-mover
+# 或
+amm
+
+# 指定移动间隔为30秒
+auto-mouse-mover -i 30
+# 或
+amm -i 30
+
+# 指定移动间隔和运行时长（1小时 = 3600秒）
+auto-mouse-mover -i 120 -d 3600
+# 或
+amm -i 120 -d 3600
+
+# 查看帮助
+auto-mouse-mover --help
+```
+
+### Python 脚本方式
+
+#### macOS / Linux
 
 使用 Shell 脚本：
 
@@ -61,7 +110,7 @@ python3 move_mouse.py -i 30
 python3 move_mouse.py -i 120 -d 3600
 ```
 
-### Windows
+#### Windows
 
 使用批处理文件：
 
@@ -91,6 +140,20 @@ python move_mouse.py -i 120 -d 3600
 - `-h, --help`: 显示帮助信息
 
 ## 使用示例
+
+### npm 方式
+
+```bash
+# 每30秒移动一次鼠标，防止系统锁定
+amm -i 30
+
+# 每2分钟移动一次，运行1小时后自动停止
+amm -i 120 -d 3600
+
+# 停止程序：按 Ctrl+C
+```
+
+### Python 方式
 
 ```bash
 # 每30秒移动一次鼠标，防止系统锁定
@@ -175,6 +238,30 @@ yamllint .github/workflows/*.yml
 ### 自动批准机制
 
 当 Renovate 创建的 PR 通过所有测试后，GitHub Actions 会自动批准并合并（仅限 patch 版本更新）。
+
+## 发布到 npm
+
+如果你想将本项目发布到 npm：
+
+```bash
+# 1. 登录 npm（如果还没有登录）
+npm login
+
+# 2. 检查包名是否可用（可选）
+npm view auto-mouse-mover
+
+# 3. 发布
+npm publish
+
+# 4. 验证发布
+npm view auto-mouse-mover
+```
+
+**注意**: 发布前请确保：
+- 已更新 `package.json` 中的版本号
+- 已测试所有功能
+- 已更新 README 文档
+- 已添加 LICENSE 文件
 
 ## 贡献
 

@@ -1,0 +1,58 @@
+{
+  "name": "auto-mouse-mover",
+  "version": "1.0.0",
+  "description": "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock",
+  "main": "index.js",
+  "bin": {
+    "auto-mouse-mover": "./bin/auto-mouse-mover.js",
+    "amm": "./bin/auto-mouse-mover.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js",
+    "format": "prettier --write \"**/*.{js,json,md}\""
+  },
+  "keywords": [
+    "mouse",
+    "automation",
+    "prevent-sleep",
+    "idle",
+    "keep-alive",
+    "cross-platform",
+    "cli",
+    "tool",
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "author": "motoish",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/motoish/auto-mouse-mover.git"
+  },
+  "bugs": {
+    "url": "https://github.com/motoish/auto-mouse-mover/issues"
+  },
+  "homepage": "https://github.com/motoish/auto-mouse-mover#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "dependencies": {
+    "robotjs": "^0.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
+
