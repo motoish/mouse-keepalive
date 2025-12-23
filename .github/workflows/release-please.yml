@@ -18,7 +18,7 @@ jobs:
   release-please:
     name: Run Release Please
     runs-on: ubuntu-latest
-    # Only run if the Lint workflow succeeded
+    # Only run if the CI workflow succeeded
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
@@ -29,15 +29,48 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Checkout the commit that triggered the Lint workflow
+          # Checkout the commit that triggered the CI workflow
           ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Debug - Check package.json
+        run: |
+          echo "Checking package.json..."
+          cat package.json | grep -A2 '"version"'
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            console.log('Version type:', typeof pkg.version);
+            console.log('Version value:', JSON.stringify(pkg.version));
+            if (typeof pkg.version !== 'string') {
+              console.error('ERROR: Version is not a string!');
+              process.exit(1);
+            }
+          "
+
+      - name: Debug - Check release-please config
+        run: |
+          echo "Checking release-please-config.json..."
+          cat release-please-config.json
 
       - name: Run release-please
         id: release
-        uses: ./.github/actions/release
+        uses: googleapis/release-please-action@v4
         with:
           config-file: release-please-config.json
           manifest-file: release-please-config.json
+
+      - name: Update Python package version files
+        if: steps.release.outputs.release_created == 'true'
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          # Update pyproject.toml
+          sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          # Update __init__.py
+          sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" mouse_keepalive/__init__.py
+          echo "Updated Python package files to version $VERSION"
+          git add pyproject.toml mouse_keepalive/__init__.py
+          git commit -m "chore: update Python package version to $VERSION" || echo "No changes to commit"
 
       - name: Output summary
         if: steps.release.outputs.release_created == 'true'
