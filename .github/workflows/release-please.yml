@@ -39,5 +39,5 @@ jobs:
           echo "- **Tag**: ${{ steps.release.outputs.tag_name }}" >> $GITHUB_STEP_SUMMARY
           echo "- **Release PR**: Created" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "After merging the release PR, the publish workflow will automatically publish to npm and PyPI." >> $GITHUB_STEP_SUMMARY
-
+          echo "After merging the release PR, the publish workflow will automatically publish to npm and PyPI." \
+            >> $GITHUB_STEP_SUMMARY

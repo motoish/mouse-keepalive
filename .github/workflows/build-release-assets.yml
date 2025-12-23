@@ -67,7 +67,7 @@ jobs:
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           ARTIFACT_NAME="${{ matrix.artifact_name }}"
-          
+
           if [ "${{ matrix.platform }}" == "win32" ]; then
             pyinstaller --onefile ^
               --name auto-mouse-mover ^
@@ -76,7 +76,8 @@ jobs:
               --console ^
               auto_mouse_mover/__main__.py
             cd dist
-            powershell -Command "Compress-Archive -Path auto-mouse-mover.exe -DestinationPath ${ARTIFACT_NAME}-v${VERSION}.zip -Force"
+            powershell -Command \
+              "Compress-Archive -Path auto-mouse-mover.exe -DestinationPath ${ARTIFACT_NAME}-v${VERSION}.zip -Force"
             cd ..
           else
             pyinstaller --onefile \
@@ -143,4 +144,3 @@ jobs:
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
