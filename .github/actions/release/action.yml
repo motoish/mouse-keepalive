@@ -7,9 +7,9 @@ inputs:
     required: false
     default: 'release-please-config.json'
   manifest-file:
-    description: 'Path to release-please manifest file (optional, not needed for node packages)'
+    description: 'Path to release-please manifest file (required when using config-file)'
     required: false
-    default: ''
+    default: '.release-please-manifest.json'
 
 outputs:
   release-created:
@@ -30,6 +30,7 @@ runs:
       uses: googleapis/release-please-action@v4
       with:
         config-file: ${{ inputs.config-file }}
+        manifest-file: ${{ inputs.manifest-file }}
 
     - name: Update Python package version files
       if: steps.release.outputs.release_created == 'true'
