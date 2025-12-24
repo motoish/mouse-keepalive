@@ -1,0 +1,26 @@
+---
+pull_request_rules:
+  # Auto-merge release-please PRs when CI passes
+  - name: Auto-merge release-please PRs
+    conditions:
+      - base=main
+      - head~=^release-please--
+      - author=github-actions[bot]
+      - status-success=CI/CD Pipeline
+      - "#approved-reviews-by>=0"  # No approval needed for release PRs
+    actions:
+      merge:
+        method: squash
+      delete_head_branch: {}
+
+  # Auto-merge other PRs on approval (optional)
+  - name: Auto-merge on approval
+    conditions:
+      - base=main
+      - "#approved-reviews-by>=1"
+      - status-success=CI/CD Pipeline
+      - -label~=(do-not-merge|wip)
+    actions:
+      merge:
+        method: squash
+      delete_head_branch: {}
