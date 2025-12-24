@@ -6,11 +6,12 @@ pull_request_rules:
       - base=main
       - head~=^release-please--
       - author=github-actions[bot]
-      - status-success=CI/CD Pipeline
+      - check-success~=^CI/CD Pipeline
       - "#approved-reviews-by>=0"  # No approval needed for release PRs
     actions:
       merge:
         method: squash
+        commit_message_template: "{{ title }} (#{{ number }})\n\n{{ body }}"
       delete_head_branch: {}
 
   # Auto-merge other PRs on approval (optional)
@@ -18,7 +19,7 @@ pull_request_rules:
     conditions:
       - base=main
       - "#approved-reviews-by>=1"
-      - status-success=CI/CD Pipeline
+      - check-success~=^CI/CD Pipeline
       - -label~=(do-not-merge|wip)
     actions:
       merge:
