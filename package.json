@@ -1,6 +1,6 @@
 {
   "name": "mouse-keepalive",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock",
   "main": "index.js",
   "bin": {
@@ -34,7 +34,7 @@
   "bugs": {
     "url": "https://github.com/motoish/mouse-keepalive/issues"
   },
-    "homepage": "https://github.com/motoish/mouse-keepalive#readme",
+  "homepage": "https://github.com/motoish/mouse-keepalive#readme",
   "engines": {
     "node": ">=14.0.0"
   },
