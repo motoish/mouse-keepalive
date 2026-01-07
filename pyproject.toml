@@ -53,8 +53,8 @@ dev = [
 ]
 
 [project.scripts]
-mouse-keepalive = "mouse_keepalive:main"
-mka = "mouse_keepalive:main"
+mouse-keepalive = "mouse_keepalive.move_mouse:main"
+mka = "mouse_keepalive.move_mouse:main"
 
 [project.urls]
 Homepage = "https://github.com/motoish/mouse-keepalive"

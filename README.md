@@ -187,6 +187,62 @@ mka -i 120 -d 3600
 
 脚本会定期将鼠标移动1-2像素，然后立即移回原位置。这样既不会影响用户的正常使用，又能防止系统检测到鼠标静止而进入休眠或锁定状态。
 
+## 架构设计
+
+本项目采用模块化架构，核心逻辑统一在 Python 模块中实现，其他语言的脚本仅作为包装脚本。
+
+### 核心模块（Python）
+
+- **位置**: `mouse_keepalive/move_mouse.py`
+- **核心类**: `MouseMover` - 包含所有鼠标移动逻辑
+- **特点**:
+  - 支持依赖注入，便于单元测试
+  - 纯函数设计，逻辑清晰
+  - 所有 I/O 操作可替换（鼠标控制、时间、打印等）
+
+### 入口点
+
+所有入口点最终都调用相同的 Python 核心模块：
+
+1. **Python CLI** (`mouse-keepalive` / `mka`):
+   - 通过 `pyproject.toml` 的 `[project.scripts]` 定义
+   - 直接调用 `mouse_keepalive.move_mouse:main`
+
+2. **Python 模块** (`python -m mouse_keepalive`):
+   - 通过 `mouse_keepalive/__main__.py` 实现
+   - 调用 `move_mouse.main()`
+
+3. **JavaScript/Node.js** (`npm install -g mouse-keepalive`):
+   - `bin/mouse-keepalive.js` → `lib/moveMouse.js`
+   - JavaScript 包装脚本自动检测 Python 环境并调用 Python 模块
+   - 如果未安装 Python，会提示安装
+
+4. **Shell 脚本** (`move_mouse.sh`):
+   - 检查 Python 环境
+   - 调用 `python -m mouse_keepalive`
+
+5. **Batch 脚本** (`move_mouse.bat`):
+   - 检查 Python 环境
+   - 调用 `python -m mouse_keepalive`
+
+### 模块化优势
+
+- ✅ **单一真实来源**: 所有逻辑在一个地方维护
+- ✅ **易于测试**: 核心逻辑支持依赖注入，可以轻松编写单元测试
+- ✅ **易于维护**: 修复 bug 或添加功能只需修改一处
+- ✅ **版本一致性**: 所有入口点使用相同的核心逻辑，确保行为一致
+- ✅ **跨平台兼容**: Python 的 `pyautogui` 库提供跨平台支持
+
+### 开发指南
+
+如果你想扩展功能或修复 bug：
+
+1. **修改核心逻辑**: 编辑 `mouse_keepalive/move_mouse.py` 中的 `MouseMover` 类
+2. **添加测试**: 在 `tests/test_move_mouse.py` 中添加测试用例
+3. **更新文档**: 更新 README 中的相关说明
+
+所有入口点会自动使用更新后的核心逻辑，无需修改多个文件。
+
 ## 注意事项
 
 1. **程序控制**：程序运行时，按 `Ctrl+C` 可以随时停止

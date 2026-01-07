@@ -20,9 +20,8 @@ wheels/
 *.egg
 
 # Python lib (but keep our Node.js lib/ and Python package)
-/lib/
 !/lib/moveMouse.js
-!auto_mouse_mover/
+!mouse_keepalive/
 
 # Virtual Environment
 venv/

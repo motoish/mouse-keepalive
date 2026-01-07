@@ -145,12 +145,12 @@ jobs:
               fi
             fi
           done
-          
+
           # If no artifacts found, provide a fallback message
           if [ -z "$ARTIFACTS_LIST" ]; then
             ARTIFACTS_LIST="- No artifacts found"$'\n'
           fi
-          
+
           {
             echo "artifacts<<EOF"
             echo -n "$ARTIFACTS_LIST"
@@ -167,14 +167,14 @@ jobs:
             ## 🎉 Release v${{ steps.version.outputs.version }}
 
             ### 📦 Published Packages
-            
+
             **npm:**
             ```bash
             npm install -g mouse-keepalive@${{ steps.version.outputs.version }}
             # Or use the latest tag (for stable releases)
             npm install -g mouse-keepalive
             ```
-            
+
             **PyPI:**
             ```bash
             pip install mouse-keepalive==${{ steps.version.outputs.version }}
@@ -183,22 +183,22 @@ jobs:
             ```
 
             ### 💻 Standalone Executables
-            
+
             Pre-built executables are available in the Assets section below:
-            
+
             ${{ steps.artifacts.outputs.artifacts }}
-            
+
             **Platform Instructions:**
             - **Linux (x86_64)**: Download the `.tar.gz` file, extract it, and run the executable
             - **macOS (x86_64)**: Download the `.zip` file, extract it, and run the executable
             - **Windows (x86_64)**: Download the `.zip` file, extract it, and run `mouse-keepalive.exe`
-            
+
             **Usage:**
             ```bash
             # After extracting, run:
             ./mouse-keepalive          # Linux/macOS
             mouse-keepalive.exe        # Windows
-            
+
             # Or with options:
             ./mouse-keepalive -i 30    # Move every 30 seconds
             ./mouse-keepalive -i 120 -d 3600  # Move every 2 minutes, run for 1 hour
