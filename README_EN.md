@@ -129,9 +129,9 @@ Using Shell script:
 Or use Python module directly:
 
 ```bash
-python3 -m auto_mouse_mover
-python3 -m auto_mouse_mover -i 30
-python3 -m auto_mouse_mover -i 120 -d 3600
+python3 -m mouse_keepalive
+python3 -m mouse_keepalive -i 30
+python3 -m mouse_keepalive -i 120 -d 3600
 ```
 
 #### Windows
@@ -195,10 +195,21 @@ The script periodically moves the mouse by 1-2 pixels and immediately returns it
 
 ## Notes
 
-1. Press `Ctrl+C` to stop the program at any time
-2. Mouse movement is very small and almost imperceptible
-3. If the system has a screensaver, this tool can help prevent it from triggering
-4. Some security software may detect automatic mouse movement behavior
+1. **Program Control**: Press `Ctrl+C` to stop the program at any time
+2. **Mouse Movement**: Mouse movement is very small (1-2 pixels) and almost imperceptible
+3. **Screensaver**: If the system has a screensaver, this tool can help prevent it from triggering
+4. **Security Software Warnings** ⚠️:
+   - Some security software (antivirus, enterprise security tools) may detect and block automatic mouse movement behavior
+   - If blocked, please add the program to your security software's whitelist/trust list
+   - Common security software: Windows Defender, enterprise antivirus, EDR (Endpoint Detection and Response) systems, etc.
+5. **Enterprise Policy Restrictions** ⚠️:
+   - Some enterprise IT policies may prohibit automatic mouse movement programs from running
+   - Enterprise environments may use Group Policy or MDM (Mobile Device Management) to restrict such behavior
+   - If unable to run, contact your IT administrator for permissions or use alternative solutions
+6. **Permission Requirements**:
+   - **macOS**: May require "Accessibility" permissions (System Settings → Privacy & Security → Accessibility)
+   - **Windows**: Usually no special permissions required, but enterprise environments may have additional restrictions
+   - **Linux**: Usually no special permissions required
 
 ## License
 
