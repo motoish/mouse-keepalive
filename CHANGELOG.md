@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.1](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.0...mouse-keepalive-v1.2.1) (2026-01-07)
+
+
+### Bug Fixes
+
+* lint ([867f5d4](https://github.com/motoish/mouse-keepalive/commit/867f5d4eab208b5d217e71727d665ebd19533fd2))
+* optimize auto approve ([2508c51](https://github.com/motoish/mouse-keepalive/commit/2508c517ec5a78afbefe57e09cbb722274812dde))
+* optimize auto approve ([6cf3258](https://github.com/motoish/mouse-keepalive/commit/6cf325868fb507195bd4d8ee24f246a8f35e9fd2))
+* optimize auto approve ([871f082](https://github.com/motoish/mouse-keepalive/commit/871f082bd9c973c0d4e8828c183aae5010de683a))
+* optimize ci ([408ad70](https://github.com/motoish/mouse-keepalive/commit/408ad70a0efbc7cf96d42c188293c8a5d3d10b28))
+* optimize module ([ab10508](https://github.com/motoish/mouse-keepalive/commit/ab10508a3d16e5fb2f6053c18f6e9fecb7e8015d))
+* optimize release workflow ([fb2acdf](https://github.com/motoish/mouse-keepalive/commit/fb2acdff0b639f6a0046ecedc9691b2ded573daa))
+* optimize script and test ([a317173](https://github.com/motoish/mouse-keepalive/commit/a31717371c80910a8d04b367bbd9f9adc2f64c8a))
+* optimize test ([96898a1](https://github.com/motoish/mouse-keepalive/commit/96898a13e2ca635e7dd146762cc1accbcf1fa48f))
+
 ## [1.2.0](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.1.0...mouse-keepalive-v1.2.0) (2026-01-07)
 
 
