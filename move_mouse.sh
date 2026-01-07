@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# 自动移动鼠标脚本 - Shell 入口 / Auto Mouse Mover Script - Shell Entry
+# 自动移动鼠标脚本 - Shell 入口 / Mouse Keepalive Script - Shell Entry
 # 支持 macOS 和 Windows (Git Bash) / Supports macOS and Windows (Git Bash)
 #
 

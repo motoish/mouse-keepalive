@@ -97,27 +97,27 @@ class TestMain:
     """Test cases for main function"""
 
     @patch('mouse_keepalive.move_mouse.move_mouse')
-    @patch('sys.argv', ['auto-mouse-mover', '-i', '30'])
+    @patch('sys.argv', ['mouse-keepalive', '-i', '30'])
     def test_main_with_interval(self, mock_move_mouse):
         """Test main function with interval argument"""
         main()
         mock_move_mouse.assert_called_once_with(interval=30, duration=None)
 
     @patch('mouse_keepalive.move_mouse.move_mouse')
-    @patch('sys.argv', ['auto-mouse-mover', '-i', '60', '-d', '3600'])
+    @patch('sys.argv', ['mouse-keepalive', '-i', '60', '-d', '3600'])
     def test_main_with_interval_and_duration(self, mock_move_mouse):
         """Test main function with both interval and duration"""
         main()
         mock_move_mouse.assert_called_once_with(interval=60, duration=3600)
 
     @patch('mouse_keepalive.move_mouse.move_mouse')
-    @patch('sys.argv', ['auto-mouse-mover'])
+    @patch('sys.argv', ['mouse-keepalive'])
     def test_main_default_values(self, mock_move_mouse):
         """Test main function with default values"""
         main()
         mock_move_mouse.assert_called_once_with(interval=60, duration=None)
 
-    @patch('sys.argv', ['auto-mouse-mover', '-i', '0'])
+    @patch('sys.argv', ['mouse-keepalive', '-i', '0'])
     @patch('sys.exit')
     @patch('builtins.print')
     def test_main_invalid_interval_zero(self, mock_print, mock_exit):
@@ -125,7 +125,7 @@ class TestMain:
         main()
         mock_exit.assert_called_once_with(1)
 
-    @patch('sys.argv', ['auto-mouse-mover', '-i', '-1'])
+    @patch('sys.argv', ['mouse-keepalive', '-i', '-1'])
     @patch('sys.exit')
     @patch('builtins.print')
     def test_main_invalid_interval_negative(self, mock_print, mock_exit):
@@ -133,7 +133,7 @@ class TestMain:
         main()
         mock_exit.assert_called_once_with(1)
 
-    @patch('sys.argv', ['auto-mouse-mover', '-d', '0'])
+    @patch('sys.argv', ['mouse-keepalive', '-d', '0'])
     @patch('sys.exit')
     @patch('builtins.print')
     def test_main_invalid_duration_zero(self, mock_print, mock_exit):
@@ -141,7 +141,7 @@ class TestMain:
         main()
         mock_exit.assert_called_once_with(1)
 
-    @patch('sys.argv', ['auto-mouse-mover', '-d', '-1'])
+    @patch('sys.argv', ['mouse-keepalive', '-d', '-1'])
     @patch('sys.exit')
     @patch('builtins.print')
     def test_main_invalid_duration_negative(self, mock_print, mock_exit):

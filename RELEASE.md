@@ -13,10 +13,10 @@
 # 编辑以下文件，将版本号改为新版本（如 1.0.1）：
 # - package.json
 # - pyproject.toml  
-# - auto_mouse_mover/__init__.py
+# - mouse_keepalive/__init__.py
 
 # 2. 提交版本更新
-git add package.json pyproject.toml auto_mouse_mover/__init__.py
+git add package.json pyproject.toml mouse_keepalive/__init__.py
 git commit -m "chore: bump version to 1.0.1"
 git push origin main
 
@@ -33,7 +33,7 @@ git push origin v1.0.1
 ### 方式二：使用 GitHub Actions 版本升级工作流
 
 1. **访问 GitHub Actions**：
-   - 打开 https://github.com/motoish/auto-mouse-mover/actions
+   - 打开 https://github.com/motoish/mouse-keepalive/actions
    - 点击左侧 "Version Bump Helper" 工作流
 
 2. **运行工作流**：
@@ -58,7 +58,7 @@ git push origin v1.0.1
 如果你已经手动更新了版本号并推送到 main：
 
 1. **访问 GitHub Actions**：
-   - 打开 https://github.com/motoish/auto-mouse-mover/actions
+   - 打开 https://github.com/motoish/mouse-keepalive/actions
    - 点击左侧 "Publish to npm and PyPI" 工作流
 
 2. **运行工作流**：
@@ -98,7 +98,7 @@ git push origin v1.0.1
 ### 2. 验证配置
 
 推送标签后，访问 GitHub Actions 页面查看发布进度：
-- https://github.com/motoish/auto-mouse-mover/actions
+- https://github.com/motoish/mouse-keepalive/actions
 
 ## 🔍 发布流程说明
 
@@ -134,10 +134,10 @@ git push origin v1.0.1
 
 ```bash
 # 验证 npm
-npm view auto-mouse-mover version
+npm view mouse-keepalive version
 
 # 验证 PyPI
-pip index versions auto-mouse-mover
+pip index versions mouse-keepalive
 ```
 
 ## 📝 版本号规范
@@ -161,10 +161,10 @@ pip index versions auto-mouse-mover
 # 1. 更新版本号
 # 编辑 package.json: "version": "1.0.1"
 # 编辑 pyproject.toml: version = "1.0.1"
-# 编辑 auto_mouse_mover/__init__.py: __version__ = "1.0.1"
+# 编辑 mouse_keepalive/__init__.py: __version__ = "1.0.1"
 
 # 2. 提交更改
-git add package.json pyproject.toml auto_mouse_mover/__init__.py
+git add package.json pyproject.toml mouse_keepalive/__init__.py
 git commit -m "chore: bump version to 1.0.1"
 git push origin main
 
@@ -173,11 +173,11 @@ git tag v1.0.1
 git push origin v1.0.1
 
 # 4. 等待 GitHub Actions 完成发布
-# 查看进度：https://github.com/motoish/auto-mouse-mover/actions
+# 查看进度：https://github.com/motoish/mouse-keepalive/actions
 
 # 5. 验证发布
-npm view auto-mouse-mover version
-pip index versions auto-mouse-mover
+npm view mouse-keepalive version
+pip index versions mouse-keepalive
 ```
 
 ## ⚠️ 注意事项
@@ -204,8 +204,8 @@ pip index versions auto-mouse-mover
 
 ## 🔗 相关链接
 
-- [GitHub Actions](https://github.com/motoish/auto-mouse-mover/actions)
-- [npm 包页面](https://www.npmjs.com/package/auto-mouse-mover)
-- [PyPI 包页面](https://pypi.org/project/auto-mouse-mover/)
+- [GitHub Actions](https://github.com/motoish/mouse-keepalive/actions)
+- [npm 包页面](https://www.npmjs.com/package/mouse-keepalive)
+- [PyPI 包页面](https://pypi.org/project/mouse-keepalive/)
 - [详细发布文档](PUBLISH.md)
 

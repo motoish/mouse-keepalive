@@ -1,5 +1,5 @@
 @echo off
-REM 自动移动鼠标脚本 - Windows 批处理入口 / Auto Mouse Mover Script - Windows Batch Entry
+REM 自动移动鼠标脚本 - Windows 批处理入口 / Mouse Keepalive Script - Windows Batch Entry
 REM 适用于 Windows 命令提示符和 PowerShell / For Windows Command Prompt and PowerShell
 
 setlocal

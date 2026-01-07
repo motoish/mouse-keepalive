@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-自动移动鼠标脚本 / Auto Mouse Mover Script
+自动移动鼠标脚本 / Mouse Keepalive Script
 支持 macOS、Windows 和 Linux 系统 / Supports macOS, Windows and Linux
 """
 
@@ -31,7 +31,7 @@ def move_mouse(interval=60, duration=None):
         duration: 运行时长（秒），None表示无限运行 / Duration (seconds), None means infinite
     """
     print("开始自动移动鼠标...")
-    print("Starting auto mouse mover...")
+    print("Starting mouse keepalive...")
     print(f"移动间隔: {interval} 秒 / Interval: {interval} seconds")
     if duration:
         print(f"运行时长: {duration} 秒 / Duration: {duration} seconds")
@@ -94,13 +94,14 @@ def main():
     import argparse
 
     parser = argparse.ArgumentParser(
-        description="自动移动鼠标工具（防止系统进入休眠或锁定） / Auto mouse mover tool (prevents system sleep or lock)",
+        description="自动移动鼠标工具（防止系统进入休眠或锁定） / Mouse keepalive tool (prevents system sleep or lock)",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 示例 / Examples:
-  auto-mouse-mover                    # 每60秒移动一次，无限运行 / Move every 60s, infinite
-  auto-mouse-mover -i 30              # 每30秒移动一次 / Move every 30s
-  auto-mouse-mover -i 120 -d 3600     # 每120秒移动一次，运行1小时 / Move every 120s, run for 1 hour
+  mouse-keepalive                    # 每60秒移动一次，无限运行 / Move every 60s, infinite
+  mouse-keepalive -i 30              # 每30秒移动一次 / Move every 30s
+  mouse-keepalive -i 120 -d 3600     # 每120秒移动一次，运行1小时 / Move every 120s, run for 1 hour
+  mka -i 30                          # 使用简短别名 / Use short alias
   python -m mouse_keepalive         # 使用模块方式运行 / Run as module
         """,
     )

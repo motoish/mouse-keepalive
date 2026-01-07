@@ -52,7 +52,7 @@ After installation, you can use the following commands:
 mouse-keepalive
 
 # Or use short alias
-amm
+mka
 ```
 
 ### Method 3: Python Script (Development/Traditional Method)
@@ -90,17 +90,17 @@ chmod +x move_mouse.sh
 # Default: move every 60 seconds, run indefinitely
 mouse-keepalive
 # or
-amm
+mka
 
 # Specify movement interval as 30 seconds
 mouse-keepalive -i 30
 # or
-amm -i 30
+mka -i 30
 
 # Specify movement interval and runtime duration (1 hour = 3600 seconds)
 mouse-keepalive -i 120 -d 3600
 # or
-amm -i 120 -d 3600
+mka -i 120 -d 3600
 
 # View help
 mouse-keepalive --help
@@ -169,10 +169,10 @@ python -m mouse_keepalive -i 120 -d 3600
 
 ```bash
 # Move mouse every 30 seconds to prevent system lock
-amm -i 30
+mka -i 30
 
 # Move every 2 minutes, automatically stop after 1 hour
-amm -i 120 -d 3600
+mka -i 120 -d 3600
 
 # Stop program: Press Ctrl+C
 ```

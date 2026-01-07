@@ -1,5 +1,5 @@
 """
-自动移动鼠标工具 / Auto Mouse Mover Tool
+自动移动鼠标工具 / Mouse Keepalive Tool
 支持 macOS、Windows 和 Linux 系统 / Supports macOS, Windows and Linux
 """
 

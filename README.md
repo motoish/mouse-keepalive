@@ -89,18 +89,12 @@ chmod +x move_mouse.sh
 ```bash
 # 默认：每60秒移动一次，无限运行
 mouse-keepalive
-# 或
-amm
 
 # 指定移动间隔为30秒
 mouse-keepalive -i 30
-# 或
-amm -i 30
 
 # 指定移动间隔和运行时长（1小时 = 3600秒）
 mouse-keepalive -i 120 -d 3600
-# 或
-amm -i 120 -d 3600
 
 # 查看帮助
 mouse-keepalive --help
@@ -169,10 +163,10 @@ python -m mouse_keepalive -i 120 -d 3600
 
 ```bash
 # 每30秒移动一次鼠标，防止系统锁定
-amm -i 30
+mka -i 30
 
 # 每2分钟移动一次，运行1小时后自动停止
-amm -i 120 -d 3600
+mka -i 120 -d 3600
 
 # 停止程序：按 Ctrl+C
 ```

@@ -25,7 +25,7 @@ npm login
 ### 3. 检查包名可用性
 
 ```bash
-npm view auto-mouse-mover
+npm view mouse-keepalive
 ```
 
 如果返回 404，说明包名可用。如果已被占用，需要修改 `package.json` 中的 `name` 字段。
@@ -56,8 +56,8 @@ npm version major
 npm link
 
 # 测试命令
-auto-mouse-mover --help
-amm --help
+mouse-keepalive --help
+mka --help
 ```
 
 ### 3. 构建和检查
@@ -84,11 +84,11 @@ npm publish --access public
 
 ```bash
 # 查看已发布的包信息
-npm view auto-mouse-mover
+npm view mouse-keepalive
 
 # 测试安装
-npm install -g auto-mouse-mover
-auto-mouse-mover --help
+npm install -g mouse-keepalive
+mouse-keepalive --help
 ```
 
 ## 发布后
@@ -116,7 +116,7 @@ git push origin v1.0.0
 ### 包名已被占用
 
 修改 `package.json` 中的 `name` 字段，可以使用：
-- 添加作用域：`@your-username/auto-mouse-mover`
+- 添加作用域：`@your-username/mouse-keepalive`
 - 使用不同的名称
 
 ### 发布权限错误
@@ -170,10 +170,10 @@ pip install --upgrade build twine
 
 ```bash
 # 检查 PyPI
-pip search auto-mouse-mover 2>/dev/null || echo "包名可能可用"
+pip search mouse-keepalive 2>/dev/null || echo "包名可能可用"
 
 # 或直接访问
-# https://pypi.org/project/auto-mouse-mover/
+# https://pypi.org/project/mouse-keepalive/
 ```
 
 如果包名已被占用，需要修改 `pyproject.toml` 中的 `name` 字段。
@@ -207,8 +207,8 @@ rm -rf dist/ build/ *.egg-info/
 python -m build
 
 # 这会创建：
-# - dist/auto_mouse_mover-1.0.0.tar.gz (源码分发包)
-# - dist/auto_mouse_mover-1.0.0-py3-none-any.whl (wheel 包)
+# - dist/mouse_keepalive-1.0.0.tar.gz (源码分发包)
+# - dist/mouse_keepalive-1.0.0-py3-none-any.whl (wheel 包)
 ```
 
 ### 4. 检查构建的包
@@ -218,7 +218,7 @@ python -m build
 twine check dist/*
 
 # 查看将要上传的文件
-tar -tzf dist/auto_mouse_mover-*.tar.gz
+tar -tzf dist/mouse_keepalive-*.tar.gz
 ```
 
 ### 5. 测试发布到 TestPyPI（推荐）
@@ -228,10 +228,10 @@ tar -tzf dist/auto_mouse_mover-*.tar.gz
 twine upload --repository testpypi dist/*
 
 # 测试安装
-pip install --index-url https://test.pypi.org/simple/ auto-mouse-mover
+pip install --index-url https://test.pypi.org/simple/ mouse-keepalive
 
 # 测试运行
-auto-mouse-mover --help
+mouse-keepalive --help
 ```
 
 ### 6. 发布到 PyPI
@@ -251,17 +251,17 @@ twine upload dist/*
 
 ```bash
 # 查看已发布的包信息
-pip show auto-mouse-mover
+pip show mouse-keepalive
 
 # 测试安装
-pip install auto-mouse-mover
+pip install mouse-keepalive
 
 # 测试运行
-auto-mouse-mover --help
-amm --help
+mouse-keepalive --help
+mka --help
 
 # 测试模块方式运行
-python -m auto_mouse_mover --help
+python -m mouse_keepalive --help
 ```
 
 ## 发布后
@@ -289,7 +289,7 @@ git push origin v1.0.0
 ### 包名已被占用
 
 修改 `pyproject.toml` 中的 `name` 字段，可以使用：
-- 添加下划线：`auto_mouse_mover`
+- 添加下划线：`mouse_keepalive`
 - 使用不同的名称
 
 ### 上传权限错误
@@ -365,7 +365,7 @@ git push origin v1.0.0
 #### 方式二：手动触发发布
 
 1. **更新版本号**：
-   - 手动编辑 `package.json`、`pyproject.toml` 和 `auto_mouse_mover/__init__.py`
+   - 手动编辑 `package.json`、`pyproject.toml` 和 `mouse_keepalive/__init__.py`
    - 提交并推送到 main 分支
 
 2. **手动触发发布**：
@@ -378,10 +378,10 @@ git push origin v1.0.0
 
 ```bash
 # 1. 更新版本号（手动编辑文件或使用 version-bump 工作流）
-# 编辑 package.json, pyproject.toml, auto_mouse_mover/__init__.py
+# 编辑 package.json, pyproject.toml, mouse_keepalive/__init__.py
 
 # 2. 提交更改
-git add package.json pyproject.toml auto_mouse_mover/__init__.py
+git add package.json pyproject.toml mouse_keepalive/__init__.py
 git commit -m "chore: bump version to 1.0.1"
 
 # 3. 创建并推送标签
@@ -418,10 +418,10 @@ git push origin v1.0.1
 
 ```bash
 # 验证 npm
-npm view auto-mouse-mover version
+npm view mouse-keepalive version
 
 # 验证 PyPI
-pip index versions auto-mouse-mover
+pip index versions mouse-keepalive
 ```
 
 ## 维护
