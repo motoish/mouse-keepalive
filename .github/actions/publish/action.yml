@@ -44,7 +44,33 @@ runs:
         # Update package.json version directly (more reliable than npm version)
         sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
         npm ci
-        npm publish --access public
+        
+        # Determine npm dist-tag based on version (semver compatible)
+        # Stable versions (1.0.0) → latest
+        # Pre-release versions → appropriate tag
+        if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          # Stable release: use 'latest' tag
+          TAG="latest"
+        elif [[ "$VERSION" =~ -beta\. ]] || [[ "$VERSION" =~ -beta$ ]]; then
+          # Beta release: use 'beta' tag
+          TAG="beta"
+        elif [[ "$VERSION" =~ -alpha\. ]] || [[ "$VERSION" =~ -alpha$ ]]; then
+          # Alpha release: use 'alpha' tag
+          TAG="alpha"
+        elif [[ "$VERSION" =~ -rc\. ]] || [[ "$VERSION" =~ -rc$ ]]; then
+          # Release candidate: use 'rc' tag
+          TAG="rc"
+        elif [[ "$VERSION" =~ -dev\. ]] || [[ "$VERSION" =~ -dev$ ]]; then
+          # Development version: use 'dev' tag
+          TAG="dev"
+        else
+          # Default to 'latest' for other versions
+          TAG="latest"
+        fi
+        
+        echo "Publishing to npm with tag: $TAG"
+        npm publish --access public --tag "$TAG"
+        echo "✅ Published mouse-keepalive@$VERSION with tag: $TAG"
       env:
         NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
 

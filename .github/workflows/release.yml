@@ -127,6 +127,36 @@ jobs:
         with:
           path: artifacts
 
+      - name: List artifacts for release notes
+        id: artifacts
+        shell: bash
+        run: |
+          ARTIFACTS_LIST=""
+          # Find all artifact files
+          for file in artifacts/**/*.zip artifacts/**/*.tar.gz; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              if [[ "$filename" == *"linux"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **Linux (x86_64)**: \`$filename\`"$'\n'
+              elif [[ "$filename" == *"macos"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **macOS (x86_64)**: \`$filename\`"$'\n'
+              elif [[ "$filename" == *"windows"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **Windows (x86_64)**: \`$filename\`"$'\n'
+              fi
+            fi
+          done
+          
+          # If no artifacts found, provide a fallback message
+          if [ -z "$ARTIFACTS_LIST" ]; then
+            ARTIFACTS_LIST="- No artifacts found"$'\n'
+          fi
+          
+          {
+            echo "artifacts<<EOF"
+            echo -n "$ARTIFACTS_LIST"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
       - name: Upload to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -137,11 +167,42 @@ jobs:
             ## 🎉 Release v${{ steps.version.outputs.version }}
 
             ### 📦 Published Packages
-            - **npm**: `npm install -g mouse-keepalive@${{ steps.version.outputs.version }}`
-            - **PyPI**: `pip install mouse-keepalive==${{ steps.version.outputs.version }}`
+            
+            **npm:**
+            ```bash
+            npm install -g mouse-keepalive@${{ steps.version.outputs.version }}
+            # Or use the latest tag (for stable releases)
+            npm install -g mouse-keepalive
+            ```
+            
+            **PyPI:**
+            ```bash
+            pip install mouse-keepalive==${{ steps.version.outputs.version }}
+            # Or use pipx (recommended)
+            pipx install mouse-keepalive
+            ```
 
             ### 💻 Standalone Executables
-            Pre-built executables are available in the Assets section below.
+            
+            Pre-built executables are available in the Assets section below:
+            
+            ${{ steps.artifacts.outputs.artifacts }}
+            
+            **Platform Instructions:**
+            - **Linux (x86_64)**: Download the `.tar.gz` file, extract it, and run the executable
+            - **macOS (x86_64)**: Download the `.zip` file, extract it, and run the executable
+            - **Windows (x86_64)**: Download the `.zip` file, extract it, and run `mouse-keepalive.exe`
+            
+            **Usage:**
+            ```bash
+            # After extracting, run:
+            ./mouse-keepalive          # Linux/macOS
+            mouse-keepalive.exe        # Windows
+            
+            # Or with options:
+            ./mouse-keepalive -i 30    # Move every 30 seconds
+            ./mouse-keepalive -i 120 -d 3600  # Move every 2 minutes, run for 1 hour
+            ```
           draft: false
           prerelease: false
         env:
