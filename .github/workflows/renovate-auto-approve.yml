@@ -42,8 +42,10 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: |
-      (contains(github.event.pull_request.user.login, 'renovate') ||
-       contains(github.event.pull_request.user.login, 'github-actions') ||
+      (github.event.pull_request.user.login == 'renovate[bot]' ||
+       github.event.pull_request.user.login == 'github-actions[bot]' ||
+       contains(github.event.pull_request.user.login, 'renovate') ||
+       startsWith(github.event.pull_request.head.ref, 'release-please--') ||
        contains(join(github.event.pull_request.labels.*.name, ','), 'renovate')) &&
       needs.test.result == 'success'
 
@@ -52,6 +54,13 @@ jobs:
       contents: read
 
     steps:
+      - name: Debug PR author
+        run: |
+          echo "PR author: ${{ github.event.pull_request.user.login }}"
+          echo "PR author type: ${{ github.event.pull_request.user.type }}"
+          echo "PR head ref: ${{ github.event.pull_request.head.ref }}"
+          echo "PR labels: ${{ join(github.event.pull_request.labels.*.name, ',') }}"
+
       - name: Approve PR
         uses: actions/github-script@v7
         with:
