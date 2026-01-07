@@ -1,5 +1,35 @@
 # Changelog
 
+## [1.2.0](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.1.0...mouse-keepalive-v1.2.0) (2026-01-07)
+
+
+### Features
+
+* add cross-platform executable builds for GitHub Releases ([d5c4601](https://github.com/motoish/mouse-keepalive/commit/d5c4601ed1283f08a6e49b220744ff5b8e47896a))
+* add Makefile to simplify development commands ([39caf65](https://github.com/motoish/mouse-keepalive/commit/39caf654c63cd4c94191b9e447ce5d9f72644f22))
+* integrate release-please for automated version management ([559c469](https://github.com/motoish/mouse-keepalive/commit/559c469a5a4df29d0b83e34681d47597fda72615))
+
+
+### Bug Fixes
+
+* add id-token permission ([375f380](https://github.com/motoish/mouse-keepalive/commit/375f380f9b36b2b841946625c9ccc7df2677e035))
+* add mergify and modify README.md ([860bf14](https://github.com/motoish/mouse-keepalive/commit/860bf1477cdc1113edf448aee06f24908cb7d5aa))
+* add release-please config-file and manifest-file ([aa59810](https://github.com/motoish/mouse-keepalive/commit/aa598102c708ce277f5d2ccb5e0f74f856577e48))
+* improve release-please workflow and fix package name ([f9583bb](https://github.com/motoish/mouse-keepalive/commit/f9583bb0a37a132b3a2914295be236bafdedda2d))
+* improve release-please workflow with proper CI wait and debugging ([7740fd8](https://github.com/motoish/mouse-keepalive/commit/7740fd80dbb02408f0a1ca8f7388e000f47a177d))
+* modify mergify setting ([5f2e5a5](https://github.com/motoish/mouse-keepalive/commit/5f2e5a56a3d1084f57492f7b87c8c2652f9abd0c))
+* modify pull_request types ([5a00584](https://github.com/motoish/mouse-keepalive/commit/5a00584234dafe36ce39f9ba5682d26a6903a56c))
+* modify release-please config file ([88caf44](https://github.com/motoish/mouse-keepalive/commit/88caf44888991648433fccc87981c0c69c305e2c))
+* pass secrets as inputs to composite action ([b75f8fa](https://github.com/motoish/mouse-keepalive/commit/b75f8faaea91757126fa709459682fd959d882f6))
+* remove trailing spaces and extra blank lines in version-bump.yml ([4a5fc6f](https://github.com/motoish/mouse-keepalive/commit/4a5fc6f21185a95974ffc9a6c4b5c63670e49cc2))
+* replace archived repo-sync/pull-request with GitHub CLI ([6adb1d5](https://github.com/motoish/mouse-keepalive/commit/6adb1d54af0f4df123078fbeb624ff595b9da0dd))
+* resolve flake8 linting errors ([19c1662](https://github.com/motoish/mouse-keepalive/commit/19c16623ce2d929ce3c28275239a1224619295f9))
+* resolve YAML linting errors ([0c5e955](https://github.com/motoish/mouse-keepalive/commit/0c5e9553775b4d7fa813f356bd2dff53eaf78655))
+* specify bash shell for Extract version step on Windows ([4e87c26](https://github.com/motoish/mouse-keepalive/commit/4e87c2641ec07e2eb78d589bc1b5fac5746f65de))
+* split long lines in YAML workflows to comply with line-length rule ([f14a284](https://github.com/motoish/mouse-keepalive/commit/f14a28420ca17a198a50bc822844b87aecc0d8bb))
+* use bash line continuation for Windows PyInstaller command ([053eb82](https://github.com/motoish/mouse-keepalive/commit/053eb82b52bef33c33a5e46b6a86d1f42b24780d))
+* use sed to update package.json version instead of npm version ([bf3cd95](https://github.com/motoish/mouse-keepalive/commit/bf3cd957e91ef72e0496f33bbf73903d3f0b7e6b))
+
 ## [1.1.0](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.0.0...mouse-keepalive-v1.1.0) (2026-01-07)
 
 
