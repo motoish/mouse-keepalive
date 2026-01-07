@@ -1,396 +1,91 @@
-# 自动移动鼠标工具
+# Mouse Keepalive
 
 **中文** | [English](README_EN.md)
 
-一个跨平台的自动移动鼠标工具，可以防止系统进入休眠或锁定状态。支持 macOS、Windows 和 Linux 系统。
+一个跨平台的自动移动鼠标工具，用于防止系统进入休眠或锁屏。  
+支持 **macOS / Windows / Linux**。
 
-## 功能特点
+---
 
-- ✅ 跨平台支持（macOS、Windows 和 Linux）
-- ✅ 可自定义移动间隔时间
-- ✅ 可设置运行时长
-- ✅ 鼠标移动几乎无感知（移动后立即返回原位置）
-- ✅ 实时显示运行状态
-- ✅ 支持 npm 和 PyPI 安装，使用简单
+## ✨ 功能亮点
 
-## 安装方式
+- 跨平台支持  
+- 可配置鼠标移动间隔与运行时长  
+- 鼠标几乎无感移动（移动后立即恢复原位置）  
+- 支持 PyPI 和 npm 安装  
+- 简洁 CLI：`mouse-keepalive` / `mka`
 
-### 方式一：PyPI 安装（Python 用户推荐）
+---
+
+## 📦 安装指南
+
+### PyPI（推荐）
 
 ```bash
-# 使用 pip 安装
 pip install mouse-keepalive
-
-# 或使用 pipx（推荐，隔离环境）
+# 或
 pipx install mouse-keepalive
 ```
 
-安装后可以使用以下命令：
+### npm
 
 ```bash
-# 使用完整命令名
-mouse-keepalive
-
-# 或使用简短别名
-mka
-
-# 或使用模块方式
-python -m mouse_keepalive
-```
-
-### 方式二：npm 安装（Node.js 用户推荐）
-
-```bash
-# 全局安装
 npm install -g mouse-keepalive
 ```
 
-安装后可以使用以下命令：
+---
+
+## 🚀 快速开始
 
 ```bash
-# 使用完整命令名
-mouse-keepalive
-
-# 或使用简短别名
+# 默认：每 60 秒移动一次
 mka
-```
 
-### 方式三：Python 脚本（开发/传统方式）
-
-#### 系统要求
-
-- Python 3.11 或更高版本
-- pyautogui 库
-
-#### 安装步骤
-
-1. 安装 Python 依赖：
-
-```bash
-pip install -r requirements.txt
-```
-
-或者直接安装：
-
-```bash
-pip install pyautogui
-```
-
-2. 给脚本添加执行权限（macOS/Linux）：
-
-```bash
-chmod +x move_mouse.sh
-```
-
-## 使用方法
-
-### PyPI/npm 安装方式（推荐）
-
-```bash
-# 默认：每60秒移动一次，无限运行
-mouse-keepalive
-
-# 指定移动间隔为30秒
-mouse-keepalive -i 30
-
-# 指定移动间隔和运行时长（1小时 = 3600秒）
-mouse-keepalive -i 120 -d 3600
-
-# 查看帮助
-mouse-keepalive --help
-
-# Python 模块方式运行
-python -m mouse_keepalive -i 30
-```
-
-### 本地 Python 脚本方式
-
-#### macOS / Linux
-
-使用 Shell 脚本：
-
-```bash
-# 默认：每60秒移动一次，无限运行
-./move_mouse.sh
-
-# 指定移动间隔为30秒
-./move_mouse.sh -i 30
-
-# 指定移动间隔和运行时长（1小时 = 3600秒）
-./move_mouse.sh -i 120 -d 3600
-```
-
-或直接使用 Python 模块：
-
-```bash
-python3 -m mouse_keepalive
-python3 -m mouse_keepalive -i 30
-python3 -m mouse_keepalive -i 120 -d 3600
-```
-
-#### Windows
-
-使用批处理文件：
-
-```cmd
-REM 默认：每60秒移动一次，无限运行
-move_mouse.bat
-
-REM 指定移动间隔为30秒
-move_mouse.bat -i 30
-
-REM 指定移动间隔和运行时长
-move_mouse.bat -i 120 -d 3600
-```
-
-或直接使用 Python 模块：
-
-```cmd
-python -m mouse_keepalive
-python -m mouse_keepalive -i 30
-python -m mouse_keepalive -i 120 -d 3600
-```
-
-## 参数说明
-
-- `-i, --interval`: 鼠标移动间隔（秒），默认60秒
-- `-d, --duration`: 运行时长（秒），默认无限运行
-- `-h, --help`: 显示帮助信息
-
-## 使用示例
-
-### PyPI/npm 安装方式
-
-```bash
-# 每30秒移动一次鼠标，防止系统锁定
+# 每 30 秒移动一次
 mka -i 30
 
-# 每2分钟移动一次，运行1小时后自动停止
+# 每 2 分钟移动一次，运行 1 小时
 mka -i 120 -d 3600
 
-# 停止程序：按 Ctrl+C
+# 查看帮助
+mka --help
 ```
 
-### 本地 Python 脚本方式
+也可以使用：
 
-```bash
-# 每30秒移动一次鼠标，防止系统锁定
-./move_mouse.sh -i 30
-
-# 每2分钟移动一次，运行1小时后自动停止
-./move_mouse.sh -i 120 -d 3600
-
-# 停止程序：按 Ctrl+C
+```
+mouse-keepalive
+python -m mouse_keepalive
 ```
 
-## 工作原理
+---
 
-脚本会定期将鼠标移动1-2像素，然后立即移回原位置。这样既不会影响用户的正常使用，又能防止系统检测到鼠标静止而进入休眠或锁定状态。
+## ⚙️ 可用参数
 
-## 架构设计
+| 参数 | 说明 | 默认 |
+|------|------|------|
+| `-i, --interval` | 移动间隔（秒） | 60 |
+| `-d, --duration` | 运行时长（秒） | 无限 |
+| `-h, --help` | 显示帮助 | — |
 
-本项目采用模块化架构，核心逻辑统一在 Python 模块中实现，其他语言的脚本仅作为包装脚本。
+---
 
-### 核心模块（Python）
+## 🧠 工作原理
 
-- **位置**: `mouse_keepalive/move_mouse.py`
-- **核心类**: `MouseMover` - 包含所有鼠标移动逻辑
-- **特点**:
-  - 支持依赖注入，便于单元测试
-  - 纯函数设计，逻辑清晰
-  - 所有 I/O 操作可替换（鼠标控制、时间、打印等）
+程序会定期将鼠标轻微移动（1–2 像素），然后立即移回原位，  
+从而避免系统检测到长时间鼠标静止而进入休眠或锁屏。
 
-### 入口点
+---
 
-所有入口点最终都调用相同的 Python 核心模块：
+## ⚠️ 注意事项
 
-1. **Python CLI** (`mouse-keepalive` / `mka`):
-   - 通过 `pyproject.toml` 的 `[project.scripts]` 定义
-   - 直接调用 `mouse_keepalive.move_mouse:main`
+- 按 **Ctrl + C** 可随时停止程序  
+- **macOS** 可能需要授权「辅助功能」权限  
+- 部分安全软件或企业策略可能会阻止自动鼠标移动。  
+  若被拦截，请加入信任白名单或咨询管理员
 
-2. **Python 模块** (`python -m mouse_keepalive`):
-   - 通过 `mouse_keepalive/__main__.py` 实现
-   - 调用 `move_mouse.main()`
+---
 
-3. **JavaScript/Node.js** (`npm install -g mouse-keepalive`):
-   - `bin/mouse-keepalive.js` → `lib/moveMouse.js`
-   - JavaScript 包装脚本自动检测 Python 环境并调用 Python 模块
-   - 如果未安装 Python，会提示安装
+## 📄 许可证
 
-4. **Shell 脚本** (`move_mouse.sh`):
-   - 检查 Python 环境
-   - 调用 `python -m mouse_keepalive`
-
-5. **Batch 脚本** (`move_mouse.bat`):
-   - 检查 Python 环境
-   - 调用 `python -m mouse_keepalive`
-
-### 模块化优势
-
-- ✅ **单一真实来源**: 所有逻辑在一个地方维护
-- ✅ **易于测试**: 核心逻辑支持依赖注入，可以轻松编写单元测试
-- ✅ **易于维护**: 修复 bug 或添加功能只需修改一处
-- ✅ **版本一致性**: 所有入口点使用相同的核心逻辑，确保行为一致
-- ✅ **跨平台兼容**: Python 的 `pyautogui` 库提供跨平台支持
-
-### 开发指南
-
-如果你想扩展功能或修复 bug：
-
-1. **修改核心逻辑**: 编辑 `mouse_keepalive/move_mouse.py` 中的 `MouseMover` 类
-2. **添加测试**: 在 `tests/test_move_mouse.py` 中添加测试用例
-3. **更新文档**: 更新 README 中的相关说明
-
-所有入口点会自动使用更新后的核心逻辑，无需修改多个文件。
-
-## 注意事项
-
-1. **程序控制**：程序运行时，按 `Ctrl+C` 可以随时停止
-2. **鼠标移动**：鼠标移动幅度很小（1-2像素），几乎不会被察觉
-3. **屏幕保护程序**：如果系统有屏幕保护程序，此工具可以帮助防止触发
-4. **安全软件警告** ⚠️：
-   - 部分安全软件（如杀毒软件、企业安全工具）可能会检测并阻止自动鼠标移动行为
-   - 如果遇到阻止，请将程序添加到安全软件的白名单/信任列表
-   - 常见的安全软件：Windows Defender、企业版杀毒软件、EDR（终端检测与响应）系统等
-5. **企业策略限制** ⚠️：
-   - 部分企业 IT 策略可能会禁止自动鼠标移动程序运行
-   - 企业环境可能使用组策略（Group Policy）或移动设备管理（MDM）限制此类行为
-   - 如果无法运行，请联系 IT 管理员获取权限或使用替代方案
-6. **权限要求**：
-   - macOS：可能需要授予"辅助功能"权限（系统设置 → 隐私与安全性 → 辅助功能）
-   - Windows：通常不需要特殊权限，但企业环境可能有额外限制
-   - Linux：通常不需要特殊权限
-
-## 许可证
-
-MIT License
-
-## 代码质量检查
-
-项目使用 GitHub Actions 自动运行多种 linter 来确保代码质量：
-
-- **Python**: flake8, black, pylint, mypy
-- **Shell**: ShellCheck
-- **Markdown**: markdownlint
-- **YAML**: yamllint
-- **Batch**: 基础语法检查
-
-每次推送代码或创建 Pull Request 时，GitHub Actions 会自动运行这些检查。
-
-### 本地运行 Linter
-
-使用 Makefile 简化命令：
-
-```bash
-# 安装开发依赖（首次使用）
-make install-dev
-# 或使用 requirements-dev.txt
-pip install -r requirements-dev.txt
-# 或使用 pyproject.toml
-pip install -e ".[dev]"
-
-# 运行所有 linter
-make lint
-
-# 运行特定 linter
-make lint-python    # Python linters
-make lint-shell     # Shell linter
-make lint-markdown  # Markdown linter
-make lint-yaml      # YAML linter
-
-# 格式化代码
-make format         # 格式化所有代码
-make format-python  # 仅格式化 Python 代码
-
-# 查看所有可用命令
-make help
-```
-
-**注意**: `shellcheck` 需要单独安装：
-- macOS: `brew install shellcheck`
-- Ubuntu/Debian: `sudo apt-get install shellcheck`
-- Fedora: `sudo dnf install ShellCheck`
-
-## 依赖管理
-
-项目使用 [Renovate](https://github.com/renovatebot/renovate) 自动维护依赖版本：
-
-- **自动更新**: 每月第一个工作日上午 11 点前自动检查并更新依赖
-- **自动合并**: Patch 版本更新会自动通过测试后合并
-- **分组管理**: 相关依赖会被分组到同一个 PR 中
-- **安全更新**: 安全相关的更新会优先处理
-
-### Renovate 配置
-
-配置文件位于 `renovate.json`，主要特性：
-
-- 自动维护 Python 依赖（requirements.txt）
-- 自动维护 GitHub Actions 版本
-- 自动维护 npm 依赖（如 markdownlint-cli）
-- Patch 版本自动合并
-- Minor/Major 版本需要手动审查
-
-### 自动批准机制
-
-当 Renovate 创建的 PR 通过所有测试后，GitHub Actions 会自动批准并合并（仅限 patch 版本更新）。
-
-## 发布到 PyPI 和 npm
-
-本项目同时支持发布到 PyPI 和 npm。
-
-### 自动发布（推荐）✨
-
-本项目使用 [release-please](https://github.com/googleapis/release-please-action) 自动管理版本和发布流程。
-
-**工作原理：**
-1. 当你提交符合 [Conventional Commits](https://www.conventionalcommits.org/) 规范的代码时，release-please 会自动：
-   - 根据提交类型决定版本号（`feat:` → minor, `fix:` → patch, `BREAKING CHANGE` → major）
-   - 创建包含版本更新和 CHANGELOG 的 Pull Request
-   - 当你合并 PR 后，自动创建 GitHub Release 和 tag
-   - 触发发布工作流，自动发布到 npm 和 PyPI
-
-**提交规范示例：**
-```bash
-feat: add new feature          # 1.0.0 → 1.1.0
-fix: fix bug                  # 1.0.0 → 1.0.1
-feat!: breaking change        # 1.0.0 → 2.0.0
-docs: update documentation    # 1.0.0 → 1.0.1
-```
-
-**手动触发发布：**
-- 前往 GitHub Actions → "Release Please" → "Run workflow"
-
-### 手动发布（备用）
-
-**PyPI:**
-```bash
-# 1. 安装构建工具
-pip install build twine
-
-# 2. 构建包
-python -m build
-
-# 3. 发布到 PyPI
-twine upload dist/*
-```
-
-**npm:**
-```bash
-# 1. 登录 npm
-npm login
-
-# 2. 发布
-npm publish
-```
-
-**注意**: 发布前请确保：
-- 已更新版本号（`pyproject.toml` 和 `package.json`）
-- 已测试所有功能
-- 已更新 README 文档
-- 已添加 LICENSE 文件
-
-## 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-在提交代码前，请确保所有 linter 检查通过。
+MIT
