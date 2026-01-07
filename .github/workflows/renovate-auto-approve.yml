@@ -1,15 +1,15 @@
 ---
-name: Auto-Approve Renovate PRs
+name: Auto-Approve Bot PRs
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, edited, reopened]
     branches:
       - main
 
 jobs:
   test:
-    name: Test Renovate PR
+    name: Test Bot PR
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -43,6 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     if: |
       (contains(github.event.pull_request.user.login, 'renovate') ||
+       contains(github.event.pull_request.user.login, 'github-actions') ||
        contains(join(github.event.pull_request.labels.*.name, ','), 'renovate')) &&
       needs.test.result == 'success'
 
