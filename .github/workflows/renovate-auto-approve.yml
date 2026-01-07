@@ -1,9 +1,12 @@
 ---
-name: Auto-Approve Bot PRs
+name: Test Bot PRs
+
+# This workflow only runs tests for bot PRs
+# Approval is handled by auto-approve-pr-target.yml which uses pull_request_target event
 
 on:
   pull_request:
-    types: [opened, synchronize, edited, reopened]
+    types: [opened, synchronize, edited, reopened, ready_for_review]
     branches:
       - main
 
@@ -36,64 +39,3 @@ jobs:
       - name: Test Python package syntax
         run: |
           python -m py_compile mouse_keepalive/*.py
-
-  debug:
-    name: Debug PR Info
-    needs: [test]
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Debug PR information
-        run: |
-          echo "=== PR Debug Information ==="
-          echo "PR author: ${{ github.event.pull_request.user.login }}"
-          echo "PR author type: ${{ github.event.pull_request.user.type }}"
-          echo "PR head ref: ${{ github.event.pull_request.head.ref }}"
-          echo "PR base ref: ${{ github.event.pull_request.base.ref }}"
-          echo "PR labels: ${{ join(github.event.pull_request.labels.*.name, ',') }}"
-          echo "Test result: ${{ needs.test.result }}"
-          echo "==========================="
-          echo ""
-          echo "Checking conditions:"
-          echo "- Is renovate[bot]? ${{ github.event.pull_request.user.login == 'renovate[bot]' }}"
-          echo "- Is github-actions[bot]? ${{ github.event.pull_request.user.login == 'github-actions[bot]' }}"
-          echo "- Is github-actions? ${{ github.event.pull_request.user.login == 'github-actions' }}"
-          echo "- Contains renovate? ${{ contains(github.event.pull_request.user.login, 'renovate') }}"
-          echo "- Starts with release-please--? ${{ startsWith(github.event.pull_request.head.ref, 'release-please--') }}"
-          echo "- Has renovate label? ${{ contains(join(github.event.pull_request.labels.*.name, ','), 'renovate') }}"
-          echo ""
-          echo "Final condition check:"
-          echo "- User matches? ${{ github.event.pull_request.user.login == 'renovate[bot]' || github.event.pull_request.user.login == 'github-actions[bot]' || github.event.pull_request.user.login == 'github-actions' || contains(github.event.pull_request.user.login, 'renovate') || startsWith(github.event.pull_request.head.ref, 'release-please--') || contains(join(github.event.pull_request.labels.*.name, ','), 'renovate') }}"
-          echo "- Test passed? ${{ needs.test.result == 'success' }}"
-
-  approve:
-    name: Auto-Approve PR
-    needs: [test, debug]
-    runs-on: ubuntu-latest
-    if: |
-      (github.event.pull_request.user.login == 'renovate[bot]' ||
-       github.event.pull_request.user.login == 'github-actions[bot]' ||
-       github.event.pull_request.user.login == 'github-actions' ||
-       contains(github.event.pull_request.user.login, 'renovate') ||
-       startsWith(github.event.pull_request.head.ref, 'release-please--') ||
-       contains(join(github.event.pull_request.labels.*.name, ','), 'renovate')) &&
-      needs.test.result == 'success'
-
-    permissions:
-      pull-requests: write
-      contents: read
-
-    steps:
-      - name: Approve PR
-        uses: actions/github-script@v7
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const { data: review } = await github.rest.pulls.createReview({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              pull_number: context.issue.number,
-              event: 'APPROVE',
-              body: '✅ Tests passed! Auto-approved by GitHub Actions.'
-            });
-            console.log(`PR approved: ${review.id}`);
