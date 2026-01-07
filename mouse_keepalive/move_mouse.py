@@ -2,11 +2,6 @@
 """
 自动移动鼠标脚本 / Mouse Keepalive Script
 支持 macOS、Windows 和 Linux 系统 / Supports macOS, Windows and Linux
-
-核心模块化设计：
-- 核心逻辑在 MouseMover 类中实现，便于测试和维护
-- 支持依赖注入，可以替换 I/O 操作进行单元测试
-- 所有入口点（CLI、模块调用）都使用相同的核心逻辑
 """
 
 import sys
@@ -291,7 +286,7 @@ def main():
         print("Error: Interval must be greater than 0")
         sys.exit(1)
 
-    if args.duration and args.duration < 1:
+    if args.duration is not None and args.duration < 1:
         print("错误: 运行时长必须大于0")
         print("Error: Duration must be greater than 0")
         sys.exit(1)
