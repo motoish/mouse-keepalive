@@ -28,7 +28,7 @@ jobs:
        contains(github.event.pull_request.user.login, 'renovate') ||
        startsWith(github.event.pull_request.head.ref, 'release-please--')) &&
       github.event.pull_request.state == 'open'
-    
+
     steps:
       - name: Check CI status
         id: check_ci
@@ -41,25 +41,25 @@ jobs:
               repo: context.repo.repo,
               ref: context.payload.pull_request.head.sha
             });
-            
+
             console.log('Available checks:');
             checks.check_runs.forEach(check => {
               console.log(`- ${check.name}: ${check.status}/${check.conclusion}`);
             });
-            
+
             // Check if CI/CD Pipeline or Test Bot PR passed
             const ciCheck = checks.check_runs.find(
               check => check.name === 'CI/CD Pipeline' && check.status === 'completed' && check.conclusion === 'success'
             );
-            
+
             const testCheck = checks.check_runs.find(
               check => check.name === 'Test Bot PR' && check.status === 'completed' && check.conclusion === 'success'
             );
-            
+
             const ciPassed = ciCheck !== undefined || testCheck !== undefined;
             core.setOutput('ci_passed', ciPassed);
             console.log(`\nCI/CD Pipeline passed: ${ciPassed}`);
-            
+
             if (!ciPassed) {
               console.log('⚠️  CI checks not yet passed. This workflow will skip approval.');
             }
@@ -83,16 +83,16 @@ jobs:
           script: |
             const prNumber = context.payload.pull_request.number;
             const prAuthor = context.payload.pull_request.user.login;
-            
+
             console.log(`Attempting to approve PR #${prNumber} created by ${prAuthor}...`);
-            
+
             try {
               const { data: review } = await github.rest.pulls.createReview({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: prNumber,
                 event: 'APPROVE',
-                body: '✅ Tests passed! Auto-approved by GitHub Actions (using pull_request_target event with higher permissions).'
+                body: '✅ Tests passed! Auto-approved by GitHub Actions.'
               });
               console.log(`✅ PR #${prNumber} approved successfully! Review ID: ${review.id}`);
             } catch (error) {
@@ -104,4 +104,3 @@ jobs:
                 throw error;
               }
             }
-
