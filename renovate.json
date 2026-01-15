@@ -35,12 +35,6 @@
       "schedule": ["before 11am on the first day of the month"]
     },
     {
-      "matchManagers": ["npm"],
-      "matchPackageNames": ["robotjs"],
-      "automerge": false,
-      "reviewers": ["motoish"]
-    },
-    {
       "matchUpdateTypes": ["patch"],
       "automerge": true,
       "automergeType": "pr",

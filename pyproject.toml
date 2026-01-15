@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mouse-keepalive"
-version = "1.0.0"
+version = "1.2.1"
 description = "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock"
 readme = "README.md"
 requires-python = ">=3.11"

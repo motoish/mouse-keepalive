@@ -8,6 +8,7 @@ let interval = 60;
 let duration = null;
 
 // 简单的参数解析 / Simple argument parsing
+let verbose = false;
 for (let i = 0; i < args.length; i++) {
   const arg = args[i];
   if (arg === '-i' || arg === '--interval') {
@@ -24,6 +25,8 @@ for (let i = 0; i < args.length; i++) {
       console.error('Error: Duration must be greater than 0');
       process.exit(1);
     }
+  } else if (arg === '-v' || arg === '--verbose') {
+    verbose = true;
   } else if (arg === '-h' || arg === '--help') {
     console.log(`
 自动移动鼠标工具（防止系统进入休眠或锁定）
@@ -36,6 +39,7 @@ Mouse Keepalive Tool (prevents system sleep or lock)
 选项 / Options:
   -i, --interval <秒>    鼠标移动间隔（秒），默认60秒 / Movement interval (seconds), default 60
   -d, --duration <秒>    运行时长（秒），默认无限运行 / Duration (seconds), default infinite
+  -v, --verbose          显示详细日志 / Show verbose logs
   -h, --help             显示帮助信息 / Show help information
 
 示例 / Examples:
@@ -54,7 +58,7 @@ Mouse Keepalive Tool (prevents system sleep or lock)
 
 // 运行主函数 / Run main function
 try {
-  moveMouse(interval, duration);
+  moveMouse(interval, duration, verbose);
 } catch (error) {
   console.error('错误:', error.message);
   console.error('Error:', error.message);

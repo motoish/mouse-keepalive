@@ -8,7 +8,18 @@
 - 支持依赖注入，便于测试
 """
 
-__version__ = "1.0.0"
+try:
+    from importlib.metadata import version, PackageNotFoundError
+except ImportError:
+    # Python < 3.8
+    from importlib_metadata import version, PackageNotFoundError  # type: ignore[no-redef]
+
+try:
+    __version__ = version("mouse-keepalive")
+except PackageNotFoundError:
+    # 如果包未安装，使用硬编码版本 / Fallback if package not installed
+    __version__ = "1.2.1"
+
 __author__ = "motoish"
 
 from .move_mouse import move_mouse, main, MouseMover, MouseController, MousePosition, ScreenSize

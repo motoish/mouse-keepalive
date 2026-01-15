@@ -116,7 +116,7 @@ class MouseMover:
 
         return new_x, new_y
 
-    def perform_move(self, move_count: int) -> Tuple[MousePosition, int]:
+    def perform_move(self, move_count: int) -> Tuple[MousePosition, int, bool]:
         """
         执行一次鼠标移动 / Perform one mouse movement
 
@@ -124,33 +124,41 @@ class MouseMover:
             move_count: 当前移动计数 / Current move count
 
         Returns:
-            (原始位置, 新的移动计数) / (Original position, new move count)
+            (原始位置, 新的移动计数, 是否成功) / (Original position, new move count, success)
         """
-        # 获取当前鼠标位置 / Get current mouse position
-        current_pos = self.controller.get_position()
+        current_pos = MousePosition(0, 0)  # 默认值 / Default value
+        try:
+            # 获取当前鼠标位置 / Get current mouse position
+            current_pos = self.controller.get_position()
 
-        # 获取屏幕尺寸 / Get screen size
-        screen_size = self.controller.get_screen_size()
+            # 获取屏幕尺寸 / Get screen size
+            screen_size = self.controller.get_screen_size()
 
-        # 计算下一个位置 / Calculate next position
-        new_x, new_y = self.calculate_next_position(current_pos, screen_size, move_count)
+            # 计算下一个位置 / Calculate next position
+            new_x, new_y = self.calculate_next_position(current_pos, screen_size, move_count)
 
-        # 移动鼠标 / Move mouse
-        self.controller.move_to(new_x, new_y, duration=0.1)
-        move_count += 1
+            # 移动鼠标 / Move mouse
+            self.controller.move_to(new_x, new_y, duration=0.1)
+            move_count += 1
 
-        # 立即移回原位置（这样用户感觉不到鼠标移动）
-        # Immediately move back to original position (user won't notice the movement)
-        self.controller.move_to(current_pos.x, current_pos.y, duration=0.1)
+            # 立即移回原位置（这样用户感觉不到鼠标移动）
+            # Immediately move back to original position (user won't notice the movement)
+            self.controller.move_to(current_pos.x, current_pos.y, duration=0.1)
 
-        return current_pos, move_count
+            return current_pos, move_count, True
+        except Exception as e:
+            # 记录错误但不中断程序 / Log error but don't interrupt program
+            self.print_func(f"警告: 鼠标移动失败 / Warning: Mouse movement failed: {e}")
+            self.print_func(f"Warning: Mouse movement failed: {e}")
+            return current_pos, move_count, False
 
     def run(
         self,
         interval: int = 60,
         duration: Optional[int] = None,
+        verbose: bool = False,
         on_start: Optional[Callable[[], None]] = None,
-        on_move: Optional[Callable[[int, MousePosition, float], None]] = None,
+        on_move: Optional[Callable[[int, MousePosition, float, bool], None]] = None,
         on_finish: Optional[Callable[[int, float], None]] = None,
     ) -> Tuple[int, float]:
         """
@@ -159,8 +167,9 @@ class MouseMover:
         Args:
             interval: 移动间隔（秒）/ Movement interval (seconds)
             duration: 运行时长（秒），None 表示无限运行 / Duration (seconds), None means infinite
+            verbose: 是否显示详细日志 / Whether to show verbose logs
             on_start: 启动回调函数 / Start callback function
-            on_move: 移动回调函数 / Move callback function
+            on_move: 移动回调函数，参数为 (move_count, position, elapsed, success) / Move callback function
             on_finish: 完成回调函数 / Finish callback function
 
         Returns:
@@ -171,16 +180,19 @@ class MouseMover:
 
         start_time = self.time_func()
         move_count = 0
+        success_count = 0
 
         try:
             while True:
                 # 执行移动 / Perform move
-                current_pos, move_count = self.perform_move(move_count)
+                current_pos, move_count, success = self.perform_move(move_count)
+                if success:
+                    success_count += 1
 
                 elapsed = self.time_func() - start_time
 
                 if on_move:
-                    on_move(move_count, current_pos, elapsed)
+                    on_move(move_count, current_pos, elapsed, success)
 
                 # 检查是否达到运行时长 / Check if duration is reached
                 if duration and elapsed >= duration:
@@ -201,7 +213,7 @@ class MouseMover:
         return move_count, elapsed
 
 
-def move_mouse(interval: int = 60, duration: Optional[int] = None) -> None:
+def move_mouse(interval: int = 60, duration: Optional[int] = None, verbose: bool = False) -> None:
     """
     自动移动鼠标 / Automatically move mouse
     这是主要的公共 API，保持向后兼容性
@@ -209,8 +221,10 @@ def move_mouse(interval: int = 60, duration: Optional[int] = None) -> None:
     Args:
         interval: 移动间隔（秒），默认60秒 / Movement interval (seconds), default 60
         duration: 运行时长（秒），None表示无限运行 / Duration (seconds), None means infinite
+        verbose: 是否显示详细日志 / Whether to show verbose logs
     """
     mover = MouseMover()
+    success_count = [0]  # 使用列表以便在闭包中修改 / Use list to allow modification in closure
 
     def on_start():
         mover.print_func("开始自动移动鼠标...")
@@ -221,13 +235,27 @@ def move_mouse(interval: int = 60, duration: Optional[int] = None) -> None:
         else:
             mover.print_func("运行时长: 无限（按 Ctrl+C 停止） / Duration: Infinite (Press Ctrl+C to stop)")
         mover.print_func(f"操作系统: {platform.system()} / OS: {platform.system()}")
+        if verbose:
+            mover.print_func("详细模式: 已启用 / Verbose mode: Enabled")
         mover.print_func("-" * 50)
 
-    def on_move(move_count: int, current_pos: MousePosition, elapsed: float):
-        mover.print_func(f"[{int(elapsed)}s] 已移动鼠标 {move_count} 次 (当前位置: {current_pos.x}, {current_pos.y})")
-        mover.print_func(
-            f"[{int(elapsed)}s] Moved mouse {move_count} times (current position: {current_pos.x}, {current_pos.y})"
-        )
+    def on_move(move_count: int, current_pos: MousePosition, elapsed: float, success: bool):
+        if success:
+            success_count[0] += 1
+
+        if verbose:
+            status = "成功" if success else "失败"
+            mover.print_func(
+                f"[{int(elapsed)}s] 已移动鼠标 {move_count} 次 (当前位置: {current_pos.x}, {current_pos.y}, 状态: {status})"
+            )
+            status_text = "success" if success else "failed"
+            mover.print_func(
+                f"[{int(elapsed)}s] Moved mouse {move_count} times "
+                f"(current position: {current_pos.x}, {current_pos.y}, status: {status_text})"
+            )
+        elif success and move_count % 10 == 0:
+            # 非详细模式下，每10次成功移动输出一次 / In non-verbose mode, output every 10 successful moves
+            mover.print_func(f"[{int(elapsed)}s] 已移动鼠标 {move_count} 次 / Moved mouse {move_count} times")
 
     def on_finish(move_count: int, elapsed: float):
         if duration:
@@ -237,10 +265,18 @@ def move_mouse(interval: int = 60, duration: Optional[int] = None) -> None:
             mover.print_func("\n\n程序被用户中断")
             mover.print_func("Program interrupted by user")
         mover.print_func(f"总共移动鼠标 {move_count} 次 / Total moves: {move_count}")
+        mover.print_func(f"成功移动: {success_count[0]} 次 / Successful moves: {success_count[0]}")
         mover.print_func(f"运行时长: {int(elapsed)} 秒 / Duration: {int(elapsed)} seconds")
 
     try:
-        mover.run(interval=interval, duration=duration, on_start=on_start, on_move=on_move, on_finish=on_finish)
+        mover.run(
+            interval=interval,
+            duration=duration,
+            verbose=verbose,
+            on_start=on_start,
+            on_move=on_move,
+            on_finish=on_finish,
+        )
     except KeyboardInterrupt:
         # on_finish 已经在 KeyboardInterrupt 处理中调用
         pass
@@ -258,6 +294,7 @@ def main():
   mouse-keepalive                    # 每60秒移动一次，无限运行 / Move every 60s, infinite
   mouse-keepalive -i 30              # 每30秒移动一次 / Move every 30s
   mouse-keepalive -i 120 -d 3600     # 每120秒移动一次，运行1小时 / Move every 120s, run for 1 hour
+  mouse-keepalive -v                 # 显示详细日志 / Show verbose logs
   mka -i 30                          # 使用简短别名 / Use short alias
   python -m mouse_keepalive         # 使用模块方式运行 / Run as module
         """,
@@ -279,6 +316,13 @@ def main():
         help="运行时长（秒），默认无限运行 / Duration (seconds), default infinite",
     )
 
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        help="显示详细日志 / Show verbose logs",
+    )
+
     args = parser.parse_args()
 
     if args.interval < 1:
@@ -291,7 +335,7 @@ def main():
         print("Error: Duration must be greater than 0")
         sys.exit(1)
 
-    move_mouse(interval=args.interval, duration=args.duration)
+    move_mouse(interval=args.interval, duration=args.duration, verbose=args.verbose)
 
 
 if __name__ == "__main__":

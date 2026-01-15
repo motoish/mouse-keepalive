@@ -43,10 +43,11 @@ class TestMouseMoverCore:
         ctrl.get_screen_size.return_value = ScreenSize(1920, 1080)
 
         mover = MouseMover(controller=ctrl)
-        original, next_count = mover.perform_move(move_count=0)
+        original, next_count, success = mover.perform_move(move_count=0)
 
         assert original == MousePosition(100, 200)
         assert next_count == 1
+        assert success is True
         assert ctrl.move_to.call_count == 2
 
     def test_run_interval_and_duration(self):
