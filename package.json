@@ -1,6 +1,6 @@
 {
   "name": "mouse-keepalive",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock",
   "main": "index.js",
   "bin": {

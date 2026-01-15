@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.2](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.1...mouse-keepalive-v1.2.2) (2026-01-15)
+
+
+### Bug Fixes
+
+* modify test_move_mouse.py ([1604d00](https://github.com/motoish/mouse-keepalive/commit/1604d00033ba07f08ec61ab1125993f714a5cede))
+* optimize version configuration ([8c173bd](https://github.com/motoish/mouse-keepalive/commit/8c173bd080d041103a21557025a9b17c62f1ff33))
+
 ## [1.2.1](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.0...mouse-keepalive-v1.2.1) (2026-01-07)
 
 
