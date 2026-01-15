@@ -158,7 +158,7 @@ class TestMainCLI:
         finally:
             sys.argv = orig
 
-        mock_move.assert_called_once_with(interval=30, duration=None)
+        mock_move.assert_called_once_with(interval=30, duration=None, verbose=False)
 
     @patch.object(move_mouse_module, "move_mouse")
     @patch("builtins.print")
