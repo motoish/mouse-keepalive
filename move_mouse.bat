@@ -44,7 +44,9 @@ if %ERRORLEVEL% NEQ 0 (
 )
 
 REM 运行 Python 模块并传递所有参数 / Run Python module and pass all arguments
-%PYTHON_CMD% -m mouse_keepalive %*
+REM 使用 -u 参数启用无缓冲输出，解决 Windows 输出延迟问题
+REM Use -u flag to enable unbuffered output, solving Windows output delay issue
+%PYTHON_CMD% -u -m mouse_keepalive %*
 
 endlocal
 

@@ -5,6 +5,7 @@
 """
 
 import sys
+import os
 import time
 import platform
 from typing import Optional, Callable, Tuple
@@ -86,7 +87,17 @@ class MouseMover:
         self.controller = controller or MouseController()
         self.time_func = time_func or time.time
         self.sleep_func = sleep_func or time.sleep
-        self.print_func = print_func or print
+        # 默认使用带刷新的 print 函数，解决 Windows 输出缓冲问题
+        # Default to print with flush to solve Windows output buffering issue
+        if print_func is None:
+            # 创建一个自动刷新的 print 包装函数
+            # Create a print wrapper function that auto-flushes
+            def flushed_print(*args, **kwargs):
+                kwargs.setdefault('flush', True)
+                print(*args, **kwargs)
+            self.print_func = flushed_print
+        else:
+            self.print_func = print_func
 
     def calculate_next_position(
         self, current_pos: MousePosition, screen_size: ScreenSize, move_count: int
@@ -285,6 +296,23 @@ def move_mouse(interval: int = 60, duration: Optional[int] = None, verbose: bool
 def main():
     """命令行入口函数 / Command line entry function"""
     import argparse
+
+    # 在 Windows 上设置输出为行缓冲模式，解决输出延迟问题
+    # Set output to line buffering on Windows to solve output delay issue
+    if platform.system() == "Windows":
+        try:
+            # Python 3.7+ 支持 reconfigure
+            # Python 3.7+ supports reconfigure
+            if hasattr(sys.stdout, 'reconfigure'):
+                sys.stdout.reconfigure(line_buffering=True)
+            else:
+                # Python < 3.7 的回退方案
+                # Fallback for Python < 3.7
+                sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
+        except (AttributeError, OSError, ValueError):
+            # 如果设置失败，继续使用默认缓冲（至少 print 函数会使用 flush=True）
+            # If setting fails, continue with default buffering (at least print will use flush=True)
+            pass
 
     parser = argparse.ArgumentParser(
         description="自动移动鼠标工具（防止系统进入休眠或锁定） / Mouse keepalive tool (prevents system sleep or lock)",
