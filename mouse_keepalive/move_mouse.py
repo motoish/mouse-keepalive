@@ -93,8 +93,9 @@ class MouseMover:
             # 创建一个自动刷新的 print 包装函数
             # Create a print wrapper function that auto-flushes
             def flushed_print(*args, **kwargs):
-                kwargs.setdefault('flush', True)
+                kwargs.setdefault("flush", True)
                 print(*args, **kwargs)
+
             self.print_func = flushed_print
         else:
             self.print_func = print_func
@@ -303,12 +304,12 @@ def main():
         try:
             # Python 3.7+ 支持 reconfigure
             # Python 3.7+ supports reconfigure
-            if hasattr(sys.stdout, 'reconfigure'):
+            if hasattr(sys.stdout, "reconfigure"):
                 sys.stdout.reconfigure(line_buffering=True)
             else:
                 # Python < 3.7 的回退方案
                 # Fallback for Python < 3.7
-                sys.stdout = os.fdopen(sys.stdout.fileno(), 'w', buffering=1)
+                sys.stdout = os.fdopen(sys.stdout.fileno(), "w", buffering=1)
         except (AttributeError, OSError, ValueError):
             # 如果设置失败，继续使用默认缓冲（至少 print 函数会使用 flush=True）
             # If setting fails, continue with default buffering (at least print will use flush=True)
