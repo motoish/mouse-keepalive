@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.3](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.2...mouse-keepalive-v1.2.3) (2026-01-19)
+
+
+### Bug Fixes
+
+* format python ([911a2bb](https://github.com/motoish/mouse-keepalive/commit/911a2bbf4409900195293198cba1ab1c53c9b6f9))
+* **windows:** resolve output buffering issue causing delayed logs ([4c22550](https://github.com/motoish/mouse-keepalive/commit/4c22550932ea4fdbfe12dc8d20f500873b9e90c4))
+
 ## [1.2.2](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.1...mouse-keepalive-v1.2.2) (2026-01-15)
 
 
