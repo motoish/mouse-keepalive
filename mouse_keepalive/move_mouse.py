@@ -265,9 +265,13 @@ def move_mouse(interval: int = 60, duration: Optional[int] = None, verbose: bool
                 f"[{int(elapsed)}s] Moved mouse {move_count} times "
                 f"(current position: {current_pos.x}, {current_pos.y}, status: {status_text})"
             )
-        elif success and move_count % 10 == 0:
-            # 非详细模式下，每10次成功移动输出一次 / In non-verbose mode, output every 10 successful moves
+        elif success:
+            # 非详细模式下，每次成功移动都输出日志 / In non-verbose mode, output every successful moves
             mover.print_func(f"[{int(elapsed)}s] 已移动鼠标 {move_count} 次 / Moved mouse {move_count} times")
+        elif not success:
+            mover.print_func(
+                f"[{int(elapsed)}s] 警告：移动鼠标失败 / Warning: Mouse movement failed(attempt {move_count})"
+            )
 
     def on_finish(move_count: int, elapsed: float):
         if duration:
