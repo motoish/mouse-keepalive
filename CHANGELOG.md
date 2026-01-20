@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.5](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.4...mouse-keepalive-v1.2.5) (2026-01-19)
+
+
+### Bug Fixes
+
+* lint ([1e0494f](https://github.com/motoish/mouse-keepalive/commit/1e0494f82e133a7c98df7d53c89477a1cbc0fc64))
+* modify log(with coordinates) ([0ab354e](https://github.com/motoish/mouse-keepalive/commit/0ab354ee86625c275729eeff191e879d57ced1fd))
+
 ## [1.2.4](https://github.com/motoish/mouse-keepalive/compare/mouse-keepalive-v1.2.3...mouse-keepalive-v1.2.4) (2026-01-19)
 
 
