@@ -1,0 +1,21 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "mouse-keepalive",
+      "include-component-in-tag": false,
+      "version-file": "package.json",
+      "changelog-path": "CHANGELOG.md",
+      "extra-files": [
+        "pyproject.toml",
+        "src/mouse_keepalive/__init__.py"
+      ],
+      "extra-files-regex": [
+        "^pyproject\\.toml$",
+        "^src/mouse_keepalive/__init__\\.py$"
+      ]
+    }
+  },
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json"
+}
+

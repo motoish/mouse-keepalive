@@ -1,0 +1,183 @@
+---
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v**'
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., 1.4.0, without tag prefix)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  resolve-version:
+    name: Resolve Version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - name: Parse version and tag
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${{ github.event_name }}" in
+            push)
+              REF_TAG="${GITHUB_REF#refs/tags/}"
+              ;;
+            release)
+              REF_TAG="${{ github.event.release.tag_name }}"
+              ;;
+            workflow_dispatch)
+              REF_TAG=""
+              ;;
+            *)
+              echo "Unsupported event: ${{ github.event_name }}" >&2
+              exit 1
+              ;;
+          esac
+
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSION="${{ github.event.inputs.version }}"
+            VERSION="${VERSION#v}"
+            TAG="v${VERSION}"
+          else
+            TAG="$REF_TAG"
+            VERSION="${TAG#v}"
+          fi
+
+          if ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid version: $VERSION (from tag: $TAG)" >&2
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved version=$VERSION tag=$TAG"
+
+  build:
+    name: Build Release Assets
+    needs: resolve-version
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            platform: linux
+            artifact-name: mouse-keepalive-linux-x86_64
+          - os: macos-latest
+            platform: darwin
+            artifact-name: mouse-keepalive-macos-x86_64
+          - os: windows-latest
+            platform: win32
+            artifact-name: mouse-keepalive-windows-x86_64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Build executable
+        uses: ./.github/actions/build
+        with:
+          version: ${{ needs.resolve-version.outputs.version }}
+          platform: ${{ matrix.platform }}
+          artifact-name: ${{ matrix.artifact-name }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact-name }}-v${{ needs.resolve-version.outputs.version }}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
+          retention-days: 30
+
+  publish:
+    name: Publish Packages
+    needs: resolve-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Publish packages
+        uses: ./.github/actions/publish
+        with:
+          version: ${{ needs.resolve-version.outputs.version }}
+          npm-token: ${{ secrets.NPM_TOKEN }}
+          pypi-token: ${{ secrets.PYPI_TOKEN }}
+
+  upload-release:
+    name: Upload to GitHub Release
+    runs-on: ubuntu-latest
+    needs: [resolve-version, build]
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'release' ||
+      startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List artifacts for release notes
+        id: artifacts
+        shell: bash
+        run: |
+          ARTIFACTS_LIST=""
+          for file in artifacts/**/*.zip artifacts/**/*.tar.gz; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              if [[ "$filename" == *"linux"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **Linux (x86_64)**: \`$filename\`"$'\n'
+              elif [[ "$filename" == *"macos"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **macOS (x86_64)**: \`$filename\`"$'\n'
+              elif [[ "$filename" == *"windows"* ]]; then
+                ARTIFACTS_LIST="${ARTIFACTS_LIST}- **Windows (x86_64)**: \`$filename\`"$'\n'
+              fi
+            fi
+          done
+
+          if [ -z "$ARTIFACTS_LIST" ]; then
+            ARTIFACTS_LIST="- No standalone artifacts found"$'\n'
+          fi
+
+          {
+            echo "artifacts<<EOF"
+            echo -n "$ARTIFACTS_LIST"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Attach assets to GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: ${{ needs.resolve-version.outputs.tag }}
+          files: artifacts/**/*
+          append_body: true
+          body: |
+
+            ### 💻 Standalone Executables
+
+            Pre-built executables (PyInstaller):
+
+            ${{ steps.artifacts.outputs.artifacts }}
+
+            **Usage after extract:**
+            ```bash
+            ./mouse-keepalive -i 30          # Linux/macOS
+            mouse-keepalive.exe -i 30        # Windows
+            ```
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

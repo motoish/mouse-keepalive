@@ -1,0 +1,44 @@
+# Git
+.git
+.gitignore
+.github
+
+# Local dev only (not for npm package)
+move_mouse.sh
+
+# Python
+*.py
+*.pyc
+__pycache__/
+*.py[cod]
+src/
+tests/
+pyproject.toml
+docs/
+
+# Development
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Config
+.flake8
+.pylintrc
+.yamllint.yml
+.markdownlint.json
+renovate.json
+Makefile
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules/
