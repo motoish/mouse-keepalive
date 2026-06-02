@@ -1,0 +1,51 @@
+{
+  "name": "mouse-keepalive",
+  "version": "0.0.0",
+  "description": "A cross-platform tool to automatically move the mouse at specified intervals to prevent system sleep or lock",
+  "bin": {
+    "mouse-keepalive": "./bin/mouse-keepalive.js",
+    "mka": "./bin/mouse-keepalive.js"
+  },
+  "scripts": {
+    "lint": "eslint bin/*.js",
+    "format": "prettier --write \"bin/*.js\" \"package.json\""
+  },
+  "keywords": [
+    "mouse",
+    "automation",
+    "prevent-sleep",
+    "idle",
+    "keep-alive",
+    "cross-platform",
+    "cli",
+    "tool",
+    "macos",
+    "windows",
+    "linux"
+  ],
+  "author": "motoish",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/motoish/mouse-keepalive.git"
+  },
+  "bugs": {
+    "url": "https://github.com/motoish/mouse-keepalive/issues"
+  },
+  "homepage": "https://github.com/motoish/mouse-keepalive#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5"
+  },
+  "files": [
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

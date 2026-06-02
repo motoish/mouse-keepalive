@@ -1,0 +1,100 @@
+name: 'Publish Packages'
+description: 'Publish to npm and/or PyPI'
+
+inputs:
+  version:
+    description: 'Version to publish'
+    required: true
+  publish-npm:
+    description: 'Whether to publish to npm'
+    required: false
+    default: 'true'
+  publish-pypi:
+    description: 'Whether to publish to PyPI'
+    required: false
+    default: 'true'
+  npm-token:
+    description: 'NPM token for publishing'
+    required: false
+  pypi-token:
+    description: 'PyPI token for publishing'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node.js (for npm)
+      if: inputs.publish-npm == 'true'
+      uses: actions/setup-node@v6
+      with:
+        node-version: '20'
+        registry-url: 'https://registry.npmjs.org'
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
+
+    - name: Setup Python (for PyPI)
+      if: inputs.publish-pypi == 'true'
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.11'
+
+    - name: Publish to npm
+      if: inputs.publish-npm == 'true'
+      shell: bash
+      run: |
+        set -euo pipefail
+        VERSION="${{ inputs.version }}"
+
+        if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+          echo "::error::NPM_TOKEN secret is missing or empty. Add an npm Automation token to repo Secrets." >&2
+          exit 1
+        fi
+
+        # Update package.json version directly (more reliable than npm version)
+        sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" package.json
+        npm install --omit=dev
+
+        # npm dist-tag（与 Git tag v1.5.1 无关）：稳定版 → latest
+        NPM_DIST_TAG="latest"
+        if [[ "$VERSION" =~ -beta(\.|$) ]]; then
+          NPM_DIST_TAG="beta"
+        elif [[ "$VERSION" =~ -alpha(\.|$) ]]; then
+          NPM_DIST_TAG="alpha"
+        elif [[ "$VERSION" =~ -rc(\.|$) ]]; then
+          NPM_DIST_TAG="rc"
+        elif [[ "$VERSION" =~ -dev(\.|$) ]]; then
+          NPM_DIST_TAG="dev"
+        elif ! [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          NPM_DIST_TAG="next"
+        fi
+
+        echo "Publishing mouse-keepalive@${VERSION} to npm (dist-tag: ${NPM_DIST_TAG})"
+        # 非 scoped 包首次发布不需要 --access public；scoped 包才需要
+        if [[ "$(node -p "require('./package.json').name")" == @* ]]; then
+          npm publish --access public --tag "$NPM_DIST_TAG"
+        else
+          npm publish --tag "$NPM_DIST_TAG"
+        fi
+        echo "✅ Published mouse-keepalive@${VERSION} (npm tag: ${NPM_DIST_TAG})"
+      env:
+        NODE_AUTH_TOKEN: ${{ inputs.npm-token }}
+
+    - name: Publish to PyPI
+      if: inputs.publish-pypi == 'true'
+      shell: bash
+      run: |
+        VERSION="${{ inputs.version }}"
+        # Update versions
+        sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+        sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" src/mouse_keepalive/__init__.py
+        # Install build tools
+        python -m pip install --upgrade pip
+        pip install build twine
+        # Build and publish
+        python -m build
+        twine check dist/*
+        twine upload dist/*
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ inputs.pypi-token }}
+

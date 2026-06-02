@@ -1,0 +1,16 @@
+[FORMAT]
+max-line-length=120
+
+[MESSAGES CONTROL]
+disable=
+    C0111,  # missing-docstring
+    C0103,  # invalid-name
+    R0903,  # too-few-public-methods
+    R0913,  # too-many-arguments
+
+[BASIC]
+good-names=i,j,k,ex,Run,_,x,y,id
+
+[TYPECHECK]
+ignored-modules=pyautogui
+

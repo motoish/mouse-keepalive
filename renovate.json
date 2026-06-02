@@ -1,0 +1,53 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":disableDependencyDashboard"
+  ],
+  "reviewers": [
+    "motoish"
+  ],
+  "semanticCommitType": "fix",
+  "semanticCommitScope": "renovate",
+  "timezone": "Asia/Tokyo",
+  "schedule": [
+    "before 11am on the first day of the month"
+  ],
+  "labels": [
+    "dependencies",
+    "renovate"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["pep621"],
+      "groupName": "Python dependencies",
+      "schedule": ["before 11am on the first day of the month"]
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "GitHub Actions",
+      "schedule": ["before 11am on the first day of the month"]
+    },
+    {
+      "matchManagers": ["npm"],
+      "groupName": "npm dependencies",
+      "schedule": ["before 11am on the first day of the month"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "automerge": true,
+      "automergeType": "pr",
+      "automergeStrategy": "squash"
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "automerge": false
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "enabled": false
+    }
+  ]
+}

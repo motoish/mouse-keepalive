@@ -1,0 +1,105 @@
+---
+name: Release Please
+
+on:
+  workflow_run:
+    workflows: ["CI/CD Pipeline"]
+    types:
+      - completed
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+  actions: write
+
+jobs:
+  release-please:
+    name: Run Release Please
+    runs-on: ubuntu-latest
+    # workflow_dispatch: manual; workflow_run: only after CI success on main
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          # Checkout the commit that triggered the CI workflow
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Debug - Check package.json
+        run: |
+          echo "Checking package.json..."
+          cat package.json | grep -A2 '"version"'
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            console.log('Version type:', typeof pkg.version);
+            console.log('Version value:', JSON.stringify(pkg.version));
+            if (typeof pkg.version !== 'string') {
+              console.error('ERROR: Version is not a string!');
+              process.exit(1);
+            }
+          "
+
+      - name: Debug - Check release-please config
+        run: |
+          echo "Checking release-please-config.json..."
+          cat release-please-config.json
+
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v5
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update Python package version files
+        if: steps.release.outputs.release_created == 'true'
+        shell: bash
+        run: |
+          VERSION="${{ steps.release.outputs.version }}"
+          # Update pyproject.toml
+          sed -i "s/^version = \".*\"/version = \"$VERSION\"/" pyproject.toml
+          # Update __init__.py
+          sed -i "s/^__version__ = \".*\"/__version__ = \"$VERSION\"/" src/mouse_keepalive/__init__.py
+          echo "Updated Python package files to version $VERSION"
+          git add pyproject.toml src/mouse_keepalive/__init__.py
+          git commit -m "chore: update Python package version to $VERSION" || echo "No changes to commit"
+
+      - name: Trigger Release Pipeline
+        if: steps.release.outputs.release_created == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # release-please 用 GITHUB_TOKEN 创建 tag/release 时，不会触发 on: push/release；
+          # 用 workflow_dispatch 显式启动发布（npm / PyPI / 附件）
+          gh workflow run "Release Pipeline" \
+            --repo "${{ github.repository }}" \
+            --ref main \
+            -f version="${{ steps.release.outputs.version }}"
+
+      - name: Output summary
+        if: steps.release.outputs.release_created == 'true'
+        run: |
+          echo "## Release Please Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ steps.release.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Tag**: ${{ steps.release.outputs.tag_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release created**: yes" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release Pipeline**: triggered via workflow_dispatch" >> $GITHUB_STEP_SUMMARY
+      - name: Output summary (release PR only)
+        if: steps.release.outputs.release_created != 'true'
+        run: |
+          echo "## Release Please Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- **Release created**: no (PR updated or no releasable commits)" >> $GITHUB_STEP_SUMMARY
+          echo "- Merge the release PR to publish; Release Pipeline runs after merge." >> $GITHUB_STEP_SUMMARY
